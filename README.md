@@ -2,6 +2,9 @@
 
 Gerador de currículos em React + Vite com preview em tempo real e exportação em PDF.
 
+O exemplo incluído usa dados de demonstração de Luanda, Angola. Substitua todos
+os dados antes de exportar um CV para uso real.
+
 ## Visão geral
 
 O projeto permite:
@@ -15,6 +18,7 @@ O projeto permite:
 
 - Node.js 18+
 - npm
+- Git (opcional, para versionamento)
 
 ## Instalação
 
@@ -38,6 +42,31 @@ A app ficará disponível em:
 ```bash
 npm run build
 ```
+
+O build é gerado na pasta `dist/`.
+
+## Versionamento e GitHub
+
+Para preparar este projeto num repositório Git:
+
+```bash
+git init
+git branch -M main
+git remote add origin https://github.com/gausscapemba/FastCv.git
+git add .
+git commit -m "Initial project upload"
+git push -u origin main
+```
+
+O GitHub não aceita a password normal em operações HTTPS. Antes do `push`,
+autentique-se com o GitHub CLI:
+
+```bash
+gh auth login
+```
+
+Escolha `GitHub.com`, `HTTPS` e autenticação pelo browser. Em alternativa,
+use um Personal Access Token com permissão de escrita no repositório.
 
 ## Estrutura principal
 
@@ -70,6 +99,9 @@ src/
 4. Personalize o template e as cores.
 5. Exporte em PDF.
 
+Em ecrãs pequenos, o preview é ocultado para dar prioridade ao formulário.
+Em laptops, o wizard mantém o preview ao lado das etapas.
+
 ## Melhorias recentes
 
 - adição de exemplo de CV pré-carregado
@@ -88,12 +120,23 @@ npm install
 npm run dev -- --host 0.0.0.0
 ```
 
-Se o problema persistir, remova a pasta `node_modules` e reinstale:
+Se o problema persistir no Windows PowerShell, remova as dependências e
+reinstale:
 
-```bash
-rm -rf node_modules package-lock.json
+```powershell
+Remove-Item -Recurse -Force node_modules
+Remove-Item -Force package-lock.json
 npm install
 ```
+
+Se aparecer `Cannot find type definition file for 'vite/client'`, confirme
+que as dependências foram instaladas novamente e reinicie o TypeScript Server
+no VS Code (`TypeScript: Restart TS Server`).
+
+### O `git push` falha por autenticação
+
+Verifique o utilizador autenticado e confirme que ele tem acesso de escrita a
+`gausscapemba/FastCv`. A branch principal deste projeto é `main`.
 
 ## Observações
 
