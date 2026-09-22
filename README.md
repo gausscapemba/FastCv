@@ -1,6 +1,6 @@
 # CVRápido
 
-Gerador de currículos em React + Vite com preview em tempo real e exportação em PDF.
+Gerador de currículos em React + Vite com preview em tempo real e exportação em PDF pesquisável.
 
 O exemplo incluído usa dados de demonstração de Luanda, Angola. Substitua todos
 os dados antes de exportar um CV para uso real.
@@ -101,6 +101,8 @@ src/
 
 Em ecrãs pequenos, o preview é ocultado para dar prioridade ao formulário.
 Em laptops, o wizard mantém o preview ao lado das etapas.
+O PDF é gerado com texto real, permitindo pesquisa, seleção e leitura por
+sistemas ATS (não é uma captura de imagem do preview).
 
 ## Melhorias recentes
 

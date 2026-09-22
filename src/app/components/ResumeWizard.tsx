@@ -1,6 +1,7 @@
 // ResumeWizard.tsx
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useResume } from '@/app/context/ResumeContext';
+import { generatePdfBlob } from '@/app/utils/resumePdf';
 
 import { Stepper, Step } from '@/app/components/Stepper';
 import { ResumePreview } from '@/app/components/ResumePreview';
@@ -38,10 +39,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
   const [currentStep, setCurrentStep] = useState(0);
   const [showCustomization, setShowCustomization] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null); // imagem gerada
-
   const { resumeData, settings, loadDemoData, resetResumeData } = useResume();
-  const pdfPreviewRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (initialMode === 'demo') {
@@ -72,7 +70,6 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
       setCurrentStep(currentStep + 1);
     } else {
       setShowCustomization(true);
-      await handleConcluir(); // gera a imagem de forma invisível
     }
   };
 
@@ -86,100 +83,15 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
     }
   };
 
-  /** ---------------- GERAR IMAGEM ---------------- */
-  const handleConcluir = async () => {
-    if (!pdfPreviewRef.current) return;
-
-    try {
-      // load html2canvas on demand
-      const html2canvasModule = await import('html2canvas');
-      // The module shape can vary (default export or the function itself). Cast via unknown
-      // to the expected function signature to satisfy TypeScript safely.
-      const html2canvas = (html2canvasModule && (html2canvasModule.default ?? html2canvasModule)) as unknown as (
-        el: HTMLElement,
-        options?: any
-      ) => Promise<HTMLCanvasElement>;
-
-      const element = pdfPreviewRef.current;
-
-      // Clonar elemento para html2canvas
-      const clone = element.cloneNode(true) as HTMLElement;
-      // Render off-screen so user doesn't see the snapshot being created
-      clone.style.position = 'fixed';
-      clone.style.top = '-10000px';
-      clone.style.left = '-10000px';
-      clone.style.opacity = '1';
-      clone.style.pointerEvents = 'none';
-      clone.style.width = element.offsetWidth + 'px';
-      clone.style.minHeight = element.offsetHeight + 'px';
-      document.body.appendChild(clone);
-
-      // Corrige cores não suportadas
-      const fixColors = (el: HTMLElement) => {
-        const style = getComputedStyle(el);
-        ['color', 'backgroundColor', 'borderColor'].forEach(prop => {
-          const value = style.getPropertyValue(prop);
-          if (value.includes('oklch') || value.includes('lab')) {
-            el.style.setProperty(prop, '#000000'); // cor visível e segura
-          }
-        });
-        el.childNodes.forEach(child => {
-          if (child instanceof HTMLElement) fixColors(child);
-        });
-      };
-      fixColors(clone);
-
-      const canvas = await html2canvas(clone, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: '#fff',
-        scrollY: -window.scrollY,
-        scrollX: -window.scrollX,
-      });
-
-      document.body.removeChild(clone);
-
-      const imgData = canvas.toDataURL('image/png');
-      setGeneratedImage(imgData); // salva a imagem em memória
-      // **Sem alert** - usuário não percebe
-    } catch (err) {
-      console.error('Erro ao gerar imagem:', err);
-    }
-  };
-
   /** ---------------- EXPORTAR PDF ---------------- */
   const handleExportPDF = async () => {
-    if (!generatedImage) return;
-
-    // load jspdf on demand
-    const jsPDFModule = await import('jspdf');
-    const JsPDFRaw = jsPDFModule?.default ?? jsPDFModule?.jsPDF ?? jsPDFModule;
-    // Cast via unknown to a constructor signature to satisfy TypeScript safely
-    type JsPDFConstructor = new (orientation?: string, unit?: string, format?: string) => any;
-    const JsPDF = JsPDFRaw as unknown as JsPDFConstructor;
-    const pdf = new JsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const img = new Image();
-    img.src = generatedImage;
-    img.onload = () => {
-      const pdfHeight = (img.height * pdfWidth) / img.width;
-
-      if (pdfHeight <= pdf.internal.pageSize.getHeight()) {
-        pdf.addImage(img, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      } else {
-        let heightLeft = pdfHeight;
-        let position = 0;
-
-        while (heightLeft > 0) {
-          pdf.addImage(img, 'PNG', 0, position, pdfWidth, pdfHeight);
-          heightLeft -= pdf.internal.pageSize.getHeight();
-          position -= pdf.internal.pageSize.getHeight();
-          if (heightLeft > 0) pdf.addPage();
-        }
-      }
-
-      pdf.save(`${resumeData.personalData.fullName || 'Meu_CV'}_cv.pdf`);
-    };
+    const blob = await generatePdfBlob(resumeData, settings);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${resumeData.personalData.fullName || 'Meu_CV'}_cv.pdf`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   /** ---------------- RENDER FORM ---------------- */
@@ -290,7 +202,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
           zIndex: -1,
         }}
       >
-        <ResumePreview ref={pdfPreviewRef} data={resumeData} settings={settings} />
+        <ResumePreview data={resumeData} settings={settings} />
       </div>
     </div>
   );
