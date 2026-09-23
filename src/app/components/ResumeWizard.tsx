@@ -90,8 +90,12 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
     const link = document.createElement('a');
     link.href = url;
     link.download = `${resumeData.personalData.fullName || 'Meu_CV'}_cv.pdf`;
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => {
+      link.remove();
+      URL.revokeObjectURL(url);
+    }, 1000);
   };
 
   /** ---------------- RENDER FORM ---------------- */
