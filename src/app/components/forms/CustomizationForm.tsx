@@ -127,6 +127,9 @@ export function CustomizationForm() {
                 {key === 'education' && 'Formação'}
                 {key === 'skills' && 'Competências'}
                 {key === 'languages' && 'Idiomas'}
+                {key === 'certifications' && 'Certificações'}
+                {key === 'projects' && 'Projectos'}
+                {key === 'courses' && 'Cursos e formação complementar'}
               </Label>
               <Switch
                 id={key}

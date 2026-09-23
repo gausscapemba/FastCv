@@ -37,6 +37,9 @@ export interface ResumeData {
   education: Education[];
   skills: string[];
   languages: Array<{ language: string; level: string }>;
+  certifications: string[];
+  projects: string[];
+  courses: string[];
 }
 
 export interface ResumeSettings {
@@ -48,6 +51,9 @@ export interface ResumeSettings {
     education: boolean;
     skills: boolean;
     languages: boolean;
+    certifications: boolean;
+    projects: boolean;
+    courses: boolean;
   };
 }
 

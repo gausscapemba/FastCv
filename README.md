@@ -9,7 +9,7 @@ os dados antes de exportar um CV para uso real.
 
 O projeto permite:
 - criar um CV em etapas guiadas
-- preencher dados pessoais, resumo, experiência, formação, competências e idiomas
+- preencher dados pessoais, resumo, experiência, formação, competências, idiomas, certificações, projectos e cursos complementares
 - visualizar o currículo em tempo real
 - personalizar template e cores
 - exportar o resultado em PDF
@@ -150,3 +150,4 @@ Verifique o utilizador autenticado e confirme que ele tem acesso de escrita a
 ## Observações
 
 Este projeto foi criado para facilitar a geração de currículos profissionais de forma rápida e visual, com foco em UX e simplicidade de uso.
+# CVRápido

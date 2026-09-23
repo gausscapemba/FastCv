@@ -42,7 +42,7 @@ function SkillBadge({ label, color }: { label: string; color: string }) {
 }
 
 export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ data, settings }, ref) => {
-  const { personalData, summary, experiences, education, skills, languages } = data;
+  const { personalData, summary, experiences, education, skills, languages, certifications, projects, courses } = data;
   const { primaryColor, showSections } = settings;
 
   const safeColor = normalizeColor(primaryColor);
@@ -162,6 +162,15 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
               ))}
             </div>
           </div>
+        )}
+        {showSections.certifications && certifications.length > 0 && (
+          <div className="mb-6"><SectionTitle color={safeColor} template={settings.template}>Certificações</SectionTitle><ul className="list-disc space-y-1 pl-5 text-gray-700">{certifications.map((item) => <li key={item}>{item}</li>)}</ul></div>
+        )}
+        {showSections.projects && projects.length > 0 && (
+          <div className="mb-6"><SectionTitle color={safeColor} template={settings.template}>Projectos relevantes</SectionTitle><ul className="list-disc space-y-1 pl-5 text-gray-700">{projects.map((item) => <li key={item}>{item}</li>)}</ul></div>
+        )}
+        {showSections.courses && courses.length > 0 && (
+          <div className="mb-6"><SectionTitle color={safeColor} template={settings.template}>Cursos e formação complementar</SectionTitle><ul className="list-disc space-y-1 pl-5 text-gray-700">{courses.map((item) => <li key={item}>{item}</li>)}</ul></div>
         )}
       </div>
     </div>

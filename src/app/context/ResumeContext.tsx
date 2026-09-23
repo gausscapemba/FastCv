@@ -19,6 +19,9 @@ interface ResumeContextType {
   deleteEducation: (id: string) => void;
   updateSkills: (skills: string[]) => void;
   updateLanguages: (languages: Array<{ language: string; level: string }>) => void;
+  updateCertifications: (items: string[]) => void;
+  updateProjects: (items: string[]) => void;
+  updateCourses: (items: string[]) => void;
   updateSettings: (settings: Partial<ResumeSettings>) => void;
   loadDemoData: () => void;
   resetResumeData: () => void;
@@ -41,6 +44,9 @@ const defaultResumeData: ResumeData = {
   education: [],
   skills: [],
   languages: [],
+  certifications: [],
+  projects: [],
+  courses: [],
 };
 
 const defaultSettings: ResumeSettings = {
@@ -52,6 +58,9 @@ const defaultSettings: ResumeSettings = {
     education: true,
     skills: true,
     languages: true,
+    certifications: true,
+    projects: true,
+    courses: true,
   },
 };
 
@@ -104,6 +113,9 @@ const demoResumeData: ResumeData = {
     { language: 'Português', level: 'Nativo' },
     { language: 'Espanhol', level: 'Avançado' },
   ],
+  certifications: ['Google UX Design Certificate'],
+  projects: ['Redesign de plataforma B2B — pesquisa, prototipagem e testes com utilizadores.'],
+  courses: ['Product Strategy e Design de Serviços — 2021'],
 };
 
 export function ResumeProvider({ children }: { children: ReactNode }) {
@@ -176,6 +188,9 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const updateLanguages = useCallback((languages: Array<{ language: string; level: string }>) => {
     setResumeData((prev) => ({ ...prev, languages }));
   }, []);
+  const updateCertifications = useCallback((items: string[]) => setResumeData((prev) => ({ ...prev, certifications: items })), []);
+  const updateProjects = useCallback((items: string[]) => setResumeData((prev) => ({ ...prev, projects: items })), []);
+  const updateCourses = useCallback((items: string[]) => setResumeData((prev) => ({ ...prev, courses: items })), []);
 
   const updateSettings = useCallback((newSettings: Partial<ResumeSettings>) => {
     setSettings((prev) => ({
@@ -210,10 +225,13 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     deleteEducation,
     updateSkills,
     updateLanguages,
+    updateCertifications,
+    updateProjects,
+    updateCourses,
     updateSettings,
     loadDemoData,
     resetResumeData,
-  }), [resumeData, settings, updatePersonalData, updateSummary, addExperience, updateExperience, deleteExperience, addEducation, updateEducation, deleteEducation, updateSkills, updateLanguages, updateSettings, loadDemoData, resetResumeData]);
+  }), [resumeData, settings, updatePersonalData, updateSummary, addExperience, updateExperience, deleteExperience, addEducation, updateEducation, deleteEducation, updateSkills, updateLanguages, updateCertifications, updateProjects, updateCourses, updateSettings, loadDemoData, resetResumeData]);
 
   return (
     <ResumeContext.Provider value={value}>

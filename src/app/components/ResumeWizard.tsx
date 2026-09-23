@@ -12,6 +12,7 @@ import { ExperienceForm } from '@/app/components/forms/ExperienceForm';
 import { EducationForm } from '@/app/components/forms/EducationForm';
 import { SkillsForm } from '@/app/components/forms/SkillsForm';
 import { LanguagesForm } from '@/app/components/forms/LanguagesForm';
+import { AdditionalSectionsForm } from '@/app/components/forms/AdditionalSectionsForm';
 import { CustomizationForm } from '@/app/components/forms/CustomizationForm';
 
 import { Button } from '@/app/components/ui/button';
@@ -23,9 +24,10 @@ const steps: Step[] = [
   { id: 0, title: 'Dados Pessoais', description: 'Informações básicas' },
   { id: 1, title: 'Resumo', description: 'Resumo profissional' },
   { id: 2, title: 'Experiência', description: 'Histórico profissional' },
-  { id: 3, title: 'Formação', description: 'Educação e certificados' },
+  { id: 3, title: 'Formação', description: 'Educação académica' },
   { id: 4, title: 'Competências', description: 'Habilidades' },
   { id: 5, title: 'Idiomas', description: 'Idiomas que domina' },
+  { id: 6, title: 'Complementos', description: 'Certificações e projectos' },
 ];
 
 interface ResumeWizardProps {
@@ -106,6 +108,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
       case 3: return <EducationForm />;
       case 4: return <SkillsForm />;
       case 5: return <LanguagesForm />;
+      case 6: return <AdditionalSectionsForm />;
       default: return null;
     }
   };
@@ -160,11 +163,11 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
         <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,680px)] gap-5 xl:gap-6">
           <div className="min-w-0">
             <ScrollArea className="h-auto max-h-none xl:h-[calc(100vh-250px)] pr-0 xl:pr-3">{renderForm()}</ScrollArea>
-            <div className="flex gap-2 pt-4 border-t">
+            <div className="flex gap-2 pt-4 border-t sm:justify-end">
               <Button
                 variant="outline"
                 onClick={handleBack}
-                className="flex-1 min-h-8 rounded-md border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 px-2 py-1.5 sm:min-h-9"
+                className="flex-1 min-h-8 rounded-md border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 px-3 py-1.5 sm:flex-none sm:min-h-9"
               >
                 <ArrowLeft className="h-3.5 w-3.5 sm:mr-1" />
                 <span className="text-[11px] sm:text-xs">Voltar</span>
@@ -172,7 +175,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
 
               <Button
                 onClick={handleNext}
-                className="flex-1 min-h-8 rounded-md bg-green-600 hover:bg-green-700 shadow-sm px-2 py-1.5 sm:min-h-9"
+                className="flex-1 min-h-8 rounded-md bg-green-600 hover:bg-green-700 shadow-sm px-3 py-1.5 sm:flex-none sm:min-h-9"
               >
                 <span className="text-[11px] sm:text-xs">
                   {showCustomization ? 'Concluído' : currentStep === steps.length - 1 ? 'Personalizar' : 'Próximo'}

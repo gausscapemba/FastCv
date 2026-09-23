@@ -4,7 +4,7 @@ import type { ResumeData, ResumeSettings } from '@/app/types/resume';
 import { formatResumeDate } from '@/app/utils/resumeDate';
 
 export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settings: ResumeSettings }) => {
-  const { personalData, summary, experiences, education, skills, languages } = data;
+  const { personalData, summary, experiences, education, skills, languages, certifications, projects, courses } = data;
   const color = settings.primaryColor || '#2563eb';
   const isModern = settings.template === 'modern';
   const isClassic = settings.template === 'classic';
@@ -129,6 +129,16 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
               </View>
             </View>
           ) : null}
+          {[
+            ['certifications', 'Certificações', certifications],
+            ['projects', 'Projectos relevantes', projects],
+            ['courses', 'Cursos e formação complementar', courses],
+          ].map(([key, title, items]) => settings.showSections[key as keyof typeof settings.showSections] && (items as string[]).length > 0 ? (
+            <View key={key as string} style={styles.section}>
+              <Text style={styles.sectionTitle}>{title as string}</Text>
+              {(items as string[]).map((item) => <Text key={item} style={styles.body}>• {item}</Text>)}
+            </View>
+          ) : null)}
         </View>
       </Page>
     </Document>
