@@ -54,7 +54,7 @@ export function PersonalDataForm() {
               type="email"
               value={personalData.email}
               onChange={(e) => updatePersonalData({ email: e.target.value })}
-              placeholder="ana.mateus@angola.com"
+              placeholder="exemplo@gmail.com"
               className="mt-1"
             />
           </div>
