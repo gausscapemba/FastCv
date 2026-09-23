@@ -8,6 +8,7 @@ import { Textarea } from '@/app/components/ui/textarea';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Card } from '@/app/components/ui/card';
 import { Plus, Trash2 } from 'lucide-react';
+import { toMonthInputValue } from '@/app/utils/resumeDate';
 
 export function EducationForm() {
   const { resumeData, addEducation, updateEducation, deleteEducation } = useResumeData();
@@ -151,23 +152,23 @@ export function EducationForm() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="eduStart">Data de Início</Label>
+            <Label htmlFor="eduStart">Data de Início <span className="font-normal text-gray-500">(mês e ano)</span></Label>
             <Input
               id="eduStart"
-              value={newEdu.startDate}
+              type="month"
+              value={toMonthInputValue(newEdu.startDate)}
               onChange={(e) => setNewEdu({ ...newEdu, startDate: e.target.value })}
-              placeholder="2018"
               className="mt-1"
             />
           </div>
 
           <div>
-            <Label htmlFor="eduEnd">Data de Conclusão</Label>
+            <Label htmlFor="eduEnd">Data de Conclusão <span className="font-normal text-gray-500">(mês e ano)</span></Label>
             <Input
               id="eduEnd"
-              value={newEdu.endDate}
+              type="month"
+              value={toMonthInputValue(newEdu.endDate)}
               onChange={(e) => setNewEdu({ ...newEdu, endDate: e.target.value })}
-              placeholder="2022"
               disabled={newEdu.current}
               className="mt-1"
             />

@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
 import type { ResumeData, ResumeSettings } from '@/app/types/resume';
 import { normalizeColor } from './ResumePreview.utils';
+import { formatResumeDate } from '@/app/utils/resumeDate';
 
 interface ResumePreviewProps {
   data: ResumeData;
@@ -108,7 +109,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
                 <div key={exp.id} className="border-l-2 pl-4" style={{ borderColor: safeColor }}>
                   <h3 className="text-lg font-semibold text-gray-900">{exp.title}</h3>
                   <p className="text-gray-700 font-medium">{exp.company}</p>
-                  <p className="text-sm text-gray-600 mb-2">{exp.location} • {exp.startDate} - {exp.current ? 'Presente' : exp.endDate}</p>
+                  <p className="text-sm text-gray-600 mb-2">{exp.location} • {formatResumeDate(exp.startDate)} - {exp.current ? 'Presente' : formatResumeDate(exp.endDate)}</p>
                   {exp.description && <p className="text-gray-700 leading-relaxed">{exp.description}</p>}
                 </div>
               ))}
@@ -124,7 +125,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
                 <div key={edu.id} className="border-l-2 pl-4" style={{ borderColor: safeColor }}>
                   <h3 className="text-lg font-semibold text-gray-900">{edu.degree}</h3>
                   <p className="text-gray-700 font-medium">{edu.institution}</p>
-                  <p className="text-sm text-gray-600 mb-2">{edu.location} • {edu.startDate} - {edu.current ? 'Presente' : edu.endDate}</p>
+                  <p className="text-sm text-gray-600 mb-2">{edu.location} • {formatResumeDate(edu.startDate)} - {edu.current ? 'Presente' : formatResumeDate(edu.endDate)}</p>
                   {edu.description && <p className="text-gray-700 leading-relaxed">{edu.description}</p>}
                 </div>
               ))}

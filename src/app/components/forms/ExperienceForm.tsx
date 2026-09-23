@@ -8,6 +8,7 @@ import { Textarea } from '@/app/components/ui/textarea';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Card } from '@/app/components/ui/card';
 import { Plus, Trash2 } from 'lucide-react';
+import { toMonthInputValue } from '@/app/utils/resumeDate';
 
 export function ExperienceForm() {
   const { resumeData, addExperience, updateExperience, deleteExperience } = useResumeData();
@@ -151,23 +152,23 @@ export function ExperienceForm() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="expStart">Data de Início</Label>
+            <Label htmlFor="expStart">Data de Início <span className="font-normal text-gray-500">(mês e ano)</span></Label>
             <Input
               id="expStart"
-              value={newExp.startDate}
+              type="month"
+              value={toMonthInputValue(newExp.startDate)}
               onChange={(e) => setNewExp({ ...newExp, startDate: e.target.value })}
-              placeholder="Jan 2022"
               className="mt-1"
             />
           </div>
 
           <div>
-            <Label htmlFor="expEnd">Data de Término</Label>
+            <Label htmlFor="expEnd">Data de Término <span className="font-normal text-gray-500">(mês e ano)</span></Label>
             <Input
               id="expEnd"
-              value={newExp.endDate}
+              type="month"
+              value={toMonthInputValue(newExp.endDate)}
               onChange={(e) => setNewExp({ ...newExp, endDate: e.target.value })}
-              placeholder="Dez 2023"
               disabled={newExp.current}
               className="mt-1"
             />

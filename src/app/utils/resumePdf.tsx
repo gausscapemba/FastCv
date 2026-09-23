@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer';
 import type { ResumeData, ResumeSettings } from '@/app/types/resume';
+import { formatResumeDate } from '@/app/utils/resumeDate';
 
 export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settings: ResumeSettings }) => {
   const { personalData, summary, experiences, education, skills, languages } = data;
@@ -83,7 +84,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
                 <View key={e.id} style={styles.item}>
                   <Text style={styles.itemTitle}>{e.title}</Text>
                   <Text style={styles.itemMeta}>
-                    {e.company}  •  {e.location}  •  {e.startDate} - {e.current ? 'Presente' : e.endDate}
+                    {e.company}  •  {e.location}  •  {formatResumeDate(e.startDate)} - {e.current ? 'Presente' : formatResumeDate(e.endDate)}
                   </Text>
                   {e.description ? <Text style={styles.body}>{e.description}</Text> : null}
                 </View>
@@ -98,7 +99,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
                 <View key={ed.id} style={styles.item}>
                   <Text style={styles.itemTitle}>{ed.degree}</Text>
                   <Text style={styles.itemMeta}>
-                    {ed.institution}  •  {ed.location}  •  {ed.startDate} - {ed.current ? 'Presente' : ed.endDate}
+                    {ed.institution}  •  {ed.location}  •  {formatResumeDate(ed.startDate)} - {ed.current ? 'Presente' : formatResumeDate(ed.endDate)}
                   </Text>
                   {ed.description ? <Text style={styles.body}>{ed.description}</Text> : null}
                 </View>
