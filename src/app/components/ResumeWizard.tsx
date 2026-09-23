@@ -1,5 +1,5 @@
 // ResumeWizard.tsx
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useResume } from '@/app/context/ResumeContext';
 import { generatePdfBlob } from '@/app/utils/resumePdf';
 
@@ -18,8 +18,6 @@ import { Button } from '@/app/components/ui/button';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 
 import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
-
-// Lazy-load heavy libraries to reduce initial bundle size
 
 const steps: Step[] = [
   { id: 0, title: 'Dados Pessoais', description: 'Informações básicas' },
@@ -47,10 +45,10 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
     } else {
       resetResumeData();
     }
-  }, [initialMode]);
+  }, [initialMode, loadDemoData, resetResumeData]);
 
   /** ---------------- VALIDAÇÃO ---------------- */
-  const validateCurrentStep = (): boolean => {
+  const validateCurrentStep = useCallback((): boolean => {
     const errors: string[] = [];
     if (currentStep === 0) {
       if (!resumeData.personalData.fullName.trim()) errors.push('Nome completo é obrigatório');
@@ -59,7 +57,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
     if (currentStep === 1 && !resumeData.summary.trim()) errors.push('Resumo profissional é obrigatório');
     setValidationErrors(errors);
     return errors.length === 0;
-  };
+  }, [currentStep, resumeData]);
 
   /** ---------------- NAVEGAÇÃO ---------------- */
   const handleNext = async () => {

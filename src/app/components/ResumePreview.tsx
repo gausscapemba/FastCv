@@ -1,6 +1,7 @@
 // ResumePreview.tsx
 import React, { forwardRef } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { ResumeData, ResumeSettings } from '@/app/types/resume';
 import { normalizeColor } from './ResumePreview.utils';
 import { formatResumeDate } from '@/app/utils/resumeDate';
@@ -10,7 +11,7 @@ interface ResumePreviewProps {
   settings: ResumeSettings;
 }
 
-function ContactItem({ icon: Icon, children, color }: { icon: any; children: React.ReactNode; color: string }) {
+function ContactItem({ icon: Icon, children, color }: { icon: LucideIcon; children: React.ReactNode; color: string }) {
   return (
     <div className="flex items-center gap-2">
       <Icon className="h-4 w-4" style={{ color }} />

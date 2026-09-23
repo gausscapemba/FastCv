@@ -55,6 +55,12 @@ const defaultSettings: ResumeSettings = {
   },
 };
 
+function createResumeId() {
+  return typeof crypto !== 'undefined' && 'randomUUID' in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
 const demoResumeData: ResumeData = {
   personalData: {
     fullName: 'Ana Isabel Mateus',
@@ -73,7 +79,7 @@ const demoResumeData: ResumeData = {
       title: 'Senior Product Designer',
       company: 'NovaFlow Angola',
       location: 'Luanda, Angola',
-      startDate: 'Mar 2022',
+      startDate: '2022-03',
       endDate: '',
       current: true,
       description:
@@ -116,7 +122,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addExperience = useCallback((exp: Omit<Experience, 'id'>) => {
-    const newExp = { ...exp, id: Date.now().toString() };
+    const newExp = { ...exp, id: createResumeId() };
     setResumeData((prev) => ({
       ...prev,
       experiences: [...prev.experiences, newExp],
@@ -140,7 +146,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addEducation = useCallback((edu: Omit<Education, 'id'>) => {
-    const newEdu = { ...edu, id: Date.now().toString() };
+    const newEdu = { ...edu, id: createResumeId() };
     setResumeData((prev) => ({
       ...prev,
       education: [...prev.education, newEdu],
@@ -172,7 +178,13 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateSettings = useCallback((newSettings: Partial<ResumeSettings>) => {
-    setSettings((prev) => ({ ...prev, ...newSettings }));
+    setSettings((prev) => ({
+      ...prev,
+      ...newSettings,
+      showSections: newSettings.showSections
+        ? { ...prev.showSections, ...newSettings.showSections }
+        : prev.showSections,
+    }));
   }, []);
 
   const loadDemoData = useCallback(() => {
