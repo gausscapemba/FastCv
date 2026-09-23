@@ -65,7 +65,7 @@ const demoResumeData: ResumeData = {
   personalData: {
     fullName: 'Ana Isabel Mateus',
     profession: 'Product Designer e UX Strategist',
-    email: 'ana.mateus@angola.com',
+    email: 'ana.mateus@gmail.com',
     phone: '+244 923 456 789',
     address: 'Luanda, Angola',
     linkedin: 'linkedin.com/in/anaisabelmateus',
