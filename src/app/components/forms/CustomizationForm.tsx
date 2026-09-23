@@ -49,6 +49,10 @@ export function CustomizationForm() {
           para ambientes conservadores ou Moderno para destacar criatividade e
           inovação. A escolha altera o layout do PDF exportado.
         </p>
+        <p className="mt-2 text-xs text-blue-800">
+          Todos os modelos exportam texto pesquisável. Nenhum modelo garante
+          aceitação por um ATS específico.
+        </p>
       </div>
 
       {/* Template Selection */}

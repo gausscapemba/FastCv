@@ -101,8 +101,15 @@ src/
 
 Em ecrãs pequenos, o preview é ocultado para dar prioridade ao formulário.
 Em laptops, o wizard mantém o preview ao lado das etapas.
-O PDF é gerado com texto real, permitindo pesquisa, seleção e leitura por
-sistemas ATS (não é uma captura de imagem do preview).
+O PDF é gerado com texto real, permitindo pesquisa, seleção e extração por
+ferramentas de recrutamento. Isso não representa uma garantia de aceitação por
+qualquer ATS; a interpretação depende da plataforma e do anúncio.
+
+## Investigação sobre currículos
+
+A síntese das fontes académicas, técnicas e profissionais usadas para orientar
+o produto está em
+[docs/pesquisa-curriculos-angola-internacional.md](./docs/pesquisa-curriculos-angola-internacional.md).
 
 ## Melhorias recentes
 
