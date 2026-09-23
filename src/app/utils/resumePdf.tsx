@@ -8,52 +8,54 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
   const color = settings.primaryColor || '#2563eb';
   const isModern = settings.template === 'modern';
   const isClassic = settings.template === 'classic';
+  const sectionIsVisible = (section: keyof ResumeSettings['showSections']) =>
+    settings.showSections[section] !== false;
   const styles = StyleSheet.create({
     page: {
       padding: isModern ? 0 : 34,
-      fontSize: 10,
+      fontSize: 9,
       fontFamily: 'Helvetica',
       color: '#1f2937',
     },
-    content: { padding: isModern ? 34 : 0 },
+    content: {     padding: isModern ? 28 : 0 },
     header: {
-      paddingBottom: 16,
-      marginBottom: 18,
+      paddingBottom: 12,
+      marginBottom: 14,
       borderBottomWidth: isClassic ? 1 : 3,
       borderBottomColor: color,
       backgroundColor: isModern ? `${color}12` : '#ffffff',
-      padding: isModern ? 24 : 0,
+      padding: isModern ? 18 : 0,
     },
-    name: { fontSize: 26, fontFamily: 'Helvetica-Bold', color: '#111827' },
-    profession: { fontSize: 13, color: '#4b5563', marginTop: 5, marginBottom: 10 },
-    contact: { fontSize: 9, color: '#4b5563', lineHeight: 1.5 },
-    section: { marginBottom: 15 },
+    name: { fontSize: 22, fontFamily: 'Helvetica-Bold', color: '#111827' },
+    profession: { fontSize: 11, color: '#4b5563', marginTop: 4, marginBottom: 7 },
+    contact: { fontSize: 8, color: '#4b5563', lineHeight: 1.35 },
+    section: { marginBottom: 11 },
     sectionTitle: {
-      fontSize: 12,
+      fontSize: 10,
       fontFamily: 'Helvetica-Bold',
       color,
-      marginBottom: 7,
+      marginBottom: 5,
       textTransform: 'uppercase',
       letterSpacing: 0.5,
       borderBottomWidth: isClassic ? 0 : 1,
       borderBottomColor: `${color}55`,
       paddingBottom: 3,
     },
-    item: { marginBottom: 9, paddingLeft: isModern ? 0 : 9, borderLeftWidth: isModern ? 0 : 2, borderLeftColor: color },
-    itemTitle: { fontSize: 11, fontFamily: 'Helvetica-Bold', color: '#111827' },
-    itemMeta: { fontSize: 9, color: '#4b5563', marginTop: 2, marginBottom: 3 },
-    body: { fontSize: 10, color: '#374151', lineHeight: 1.45 },
+    item: { marginBottom: 7, paddingLeft: isModern ? 0 : 8, borderLeftWidth: isModern ? 0 : 2, borderLeftColor: color },
+    itemTitle: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#111827' },
+    itemMeta: { fontSize: 8, color: '#4b5563', marginTop: 2, marginBottom: 3 },
+    body: { fontSize: 9, color: '#374151', lineHeight: 1.3 },
     skills: { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
     skill: {
-      fontSize: 9,
+      fontSize: 8,
       color: isModern ? '#ffffff' : color,
       backgroundColor: isModern ? color : `${color}18`,
-      paddingVertical: 4,
-      paddingHorizontal: 7,
+      paddingVertical: 3,
+      paddingHorizontal: 6,
       borderRadius: 10,
     },
     languages: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
-    language: { fontSize: 10, color: '#374151' },
+    language: { fontSize: 9, color: '#374151' },
   });
 
   return (
@@ -70,14 +72,14 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
             </Text>
           </View>
 
-          {settings.showSections.summary && summary ? (
+          {sectionIsVisible('summary') && summary ? (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Resumo Profissional</Text>
               <Text style={styles.body}>{summary}</Text>
             </View>
           ) : null}
 
-          {settings.showSections.experience && experiences.length > 0 ? (
+          {sectionIsVisible('experience') && experiences.length > 0 ? (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Experiência Profissional</Text>
               {experiences.map((e) => (
@@ -92,7 +94,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
             </View>
           ) : null}
 
-          {settings.showSections.education && education.length > 0 ? (
+          {sectionIsVisible('education') && education.length > 0 ? (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Formação Acadêmica</Text>
               {education.map((ed) => (
@@ -107,7 +109,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
             </View>
           ) : null}
 
-          {settings.showSections.skills && skills.length > 0 ? (
+          {sectionIsVisible('skills') && skills.length > 0 ? (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Competências</Text>
               <View style={styles.skills}>
@@ -116,7 +118,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
             </View>
           ) : null}
 
-          {settings.showSections.languages && languages.length > 0 ? (
+          {sectionIsVisible('languages') && languages.length > 0 ? (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Idiomas</Text>
               <View style={styles.languages}>
@@ -133,7 +135,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
             ['certifications', 'Certificações', certifications],
             ['projects', 'Projectos relevantes', projects],
             ['courses', 'Cursos e formação complementar', courses],
-          ].map(([key, title, items]) => settings.showSections[key as keyof typeof settings.showSections] && (items as string[]).length > 0 ? (
+          ].map(([key, title, items]) => sectionIsVisible(key as keyof ResumeSettings['showSections']) && (items as string[]).length > 0 ? (
             <View key={key as string} style={styles.section}>
               <Text style={styles.sectionTitle}>{title as string}</Text>
               {(items as string[]).map((item) => <Text key={item} style={styles.body}>• {item}</Text>)}
