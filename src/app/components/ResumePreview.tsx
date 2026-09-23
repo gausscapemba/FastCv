@@ -18,12 +18,17 @@ function ContactItem({ icon: Icon, children, color }: { icon: any; children: Rea
   );
 }
 
-function SectionTitle({ children, color }: { children: React.ReactNode; color: string }) {
+function SectionTitle({ children, color, template }: { children: React.ReactNode; color: string; template: ResumeSettings['template'] }) {
+  const isModern = template === 'modern';
+  const isClassic = template === 'classic';
   return (
-    <h2 className="text-2xl font-semibold mb-3" style={{ color }}>
-      {children}
-    </h2>
-  );
+  <h2
+    className={`text-2xl font-semibold mb-3 ${isClassic ? 'border-b pb-1' : ''} ${isModern ? 'tracking-tight' : ''}`}
+    style={{ color, borderColor: isClassic ? `${color}55` : undefined }}
+  >
+    {children}
+  </h2>
+);
 }
 
 function SkillBadge({ label, color }: { label: string; color: string }) {
@@ -39,17 +44,35 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
   const { primaryColor, showSections } = settings;
 
   const safeColor = normalizeColor(primaryColor);
+  const isModern = settings.template === 'modern';
+  const isClassic = settings.template === 'classic';
 
   return (
     <div
       ref={ref}
-      className="bg-white shadow-lg rounded-lg overflow-hidden"
-      style={{ width: '100%', maxWidth: '21cm', minHeight: '29.7cm', backgroundColor: '#fff' }}
+      className={`bg-white shadow-lg rounded-lg overflow-hidden ${isModern ? 'ring-1' : ''}`}
+      style={{
+        width: '100%',
+        maxWidth: '21cm',
+        minHeight: '29.7cm',
+        backgroundColor: '#fff',
+        borderColor: isModern ? safeColor : undefined,
+      }}
     >
       <div className="p-8 md:p-10 xl:p-12">
-        <div className="border-b-4 pb-6 mb-6" style={{ borderColor: safeColor }}>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{personalData.fullName || 'Seu Nome'}</h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-4">{personalData.profession || 'Sua Profissão'}</p>
+        <div
+          className={`pb-6 mb-6 ${isClassic ? 'border-b' : 'border-b-4'} ${isModern ? 'rounded-xl px-6 pt-6 -mx-2' : ''}`}
+          style={{ borderColor: safeColor, backgroundColor: isModern ? `${safeColor}12` : undefined }}
+        >
+          <h1
+            className={`text-3xl md:text-4xl font-bold mb-2 ${isModern ? 'tracking-tight' : ''}`}
+            style={{ color: isModern ? safeColor : '#111827' }}
+          >
+            {personalData.fullName || 'Seu Nome'}
+          </h1>
+          <p className={`text-lg md:text-xl mb-4 ${isClassic ? 'uppercase tracking-wide' : ''} text-gray-600`}>
+            {personalData.profession || 'Sua Profissão'}
+          </p>
 
           <div className="flex flex-wrap gap-4 text-sm text-gray-600">
             {personalData.email && (
@@ -72,14 +95,14 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
 
         {showSections.summary && summary && (
           <div className="mb-6">
-            <SectionTitle color={safeColor}>Resumo Profissional</SectionTitle>
+            <SectionTitle color={safeColor} template={settings.template}>Resumo Profissional</SectionTitle>
             <p className="text-gray-700 leading-relaxed">{summary}</p>
           </div>
         )}
 
         {showSections.experience && experiences.length > 0 && (
           <div className="mb-6">
-            <SectionTitle color={safeColor}>Experiência Profissional</SectionTitle>
+            <SectionTitle color={safeColor} template={settings.template}>Experiência Profissional</SectionTitle>
             <div className="space-y-4">
               {experiences.map((exp) => (
                 <div key={exp.id} className="border-l-2 pl-4" style={{ borderColor: safeColor }}>
@@ -95,7 +118,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
 
         {showSections.education && education.length > 0 && (
           <div className="mb-6">
-            <SectionTitle color={safeColor}>Formação Acadêmica</SectionTitle>
+            <SectionTitle color={safeColor} template={settings.template}>Formação Acadêmica</SectionTitle>
             <div className="space-y-4">
               {education.map((edu) => (
                 <div key={edu.id} className="border-l-2 pl-4" style={{ borderColor: safeColor }}>
@@ -111,7 +134,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
 
         {showSections.skills && skills.length > 0 && (
           <div className="mb-6">
-            <SectionTitle color={safeColor}>Competências</SectionTitle>
+            <SectionTitle color={safeColor} template={settings.template}>Competências</SectionTitle>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill, index) => (
                 <SkillBadge key={index} label={skill} color={safeColor} />
@@ -122,7 +145,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
 
         {showSections.languages && languages.length > 0 && (
           <div className="mb-6">
-            <SectionTitle color={safeColor}>Idiomas</SectionTitle>
+            <SectionTitle color={safeColor} template={settings.template}>Idiomas</SectionTitle>
             <div className="grid grid-cols-2 gap-3">
               {languages.map((lang, index) => (
                 <div key={index} className="flex items-center gap-2">
