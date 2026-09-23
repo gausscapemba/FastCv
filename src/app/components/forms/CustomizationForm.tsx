@@ -18,17 +18,17 @@ const templates = [
   {
     id: 'europass',
     name: 'Europass',
-    description: 'Formato padrão europeu, limpo e profissional',
+    description: 'Estrutura padronizada, organizada e adequada para candidaturas na Europa e instituições formais.',
   },
   {
     id: 'classic',
     name: 'Clássico',
-    description: 'Design tradicional e conservador',
+    description: 'Visual sóbrio, linear e discreto, ideal para bancos, administração pública e empresas tradicionais.',
   },
   {
     id: 'modern',
     name: 'Moderno',
-    description: 'Layout contemporâneo e criativo',
+    description: 'Layout contemporâneo com mais destaque visual, indicado para tecnologia, design, marketing e áreas criativas.',
   },
 ];
 
@@ -40,6 +40,15 @@ export function CustomizationForm() {
       <div>
         <h3 className="text-2xl font-semibold mb-2">Personalização</h3>
         <p className="text-gray-600">Customize a aparência do seu currículo</p>
+      </div>
+
+      <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900">
+        <p className="font-medium">Como escolher?</p>
+        <p className="mt-1 leading-relaxed">
+          Escolha Europass para candidaturas formais e internacionais, Clássico
+          para ambientes conservadores ou Moderno para destacar criatividade e
+          inovação. A escolha altera o layout do PDF exportado.
+        </p>
       </div>
 
       {/* Template Selection */}
@@ -66,11 +75,11 @@ export function CustomizationForm() {
               >
                 <div className="flex items-center space-x-3">
                   <RadioGroupItem value={template.id} id={template.id} />
-                  <div>
+                  <div className="min-w-0">
                     <Label htmlFor={template.id} className="cursor-pointer">
                       {template.name}
                     </Label>
-                    <p className="text-sm text-gray-600">{template.description}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-600">{template.description}</p>
                   </div>
                 </div>
               </Card>
