@@ -64,15 +64,15 @@ function createResumeId() {
 const demoResumeData: ResumeData = {
   personalData: {
     fullName: 'Ana Isabel Mateus',
-    profession: 'Product Designer e UX Strategist',
+    profession: 'Designer de Produto e Estratega de UX',
     email: 'ana.mateus@gmail.com',
     phone: '+244 923 456 789',
     address: 'Luanda, Angola',
-    linkedin: 'linkedin.com/in/anaisabelmateus',
-    website: 'anaisabel.design',
+    linkedin: 'https://linkedin.com/in/anaisabelmateus',
+    website: 'https://anaisabel.design',
   },
   summary:
-    'Designer de produto com 7 anos de experiência em UX, pesquisa, design de sistemas e liderança de squads multidisciplinares. Especializada em transformar problemas complexos em experiências simples, intuitivas e com alto impacto para usuários e negócios em Angola e na região.',
+    'Designer de produto com 7 anos de experiência em UX, pesquisa, design de sistemas e liderança de equipas multidisciplinares. Especializada em transformar problemas complexos em experiências simples, intuitivas e com alto impacto para utilizadores e negócios em Angola e na região.',
   experiences: [
     {
       id: 'demo-exp-1',
@@ -83,13 +83,13 @@ const demoResumeData: ResumeData = {
       endDate: '',
       current: true,
       description:
-        'Liderança de produto digital para clientes B2B e B2C, priorização de roadmap, criação de design systems e melhoria contínua da experiência do usuário. Aumentei a taxa de conversão em 28% e reduzi o tempo de onboarding em 35%, com impacto direto em negócios locais e regionais.',
+        'Liderança de produto digital para clientes B2B e B2C, priorização de roadmap, criação de design systems e melhoria contínua da experiência do utilizador. Aumentei a taxa de conversão em 28% e reduzi o tempo de onboarding em 35%, com impacto directo em negócios locais e regionais.',
     },
   ],
   education: [
     {
       id: 'demo-edu-1',
-      degree: 'Bacharelado em Design Gráfico',
+      degree: 'Licenciatura em Design Gráfico',
       institution: 'Universidade Agostinho Neto',
       location: 'Luanda, Angola',
       startDate: '2014-01',

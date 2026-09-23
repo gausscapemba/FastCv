@@ -39,7 +39,7 @@ export function CustomizationForm() {
     <div className="space-y-8">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Personalização</h3>
-        <p className="text-gray-600">Customize a aparência do seu currículo</p>
+        <p className="text-gray-600">Personalize a aparência do seu currículo</p>
       </div>
 
       <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900">

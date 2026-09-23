@@ -143,6 +143,12 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
       {/* CONTEÚDO */}
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6 py-6 sm:py-8">
         {!showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
+        {initialMode === 'demo' && currentStep === 0 && !showCustomization && (
+          <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <strong>Exemplo de demonstração:</strong> estes dados são fictícios.
+            Substitua-os pelos seus dados antes de exportar e enviar o CV.
+          </div>
+        )}
         {validationErrors.length > 0 && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
             <ul className="list-disc list-inside text-sm text-red-700">

@@ -89,7 +89,7 @@ export function PersonalDataForm() {
               id="linkedin"
               value={personalData.linkedin}
               onChange={(e) => updatePersonalData({ linkedin: e.target.value })}
-              placeholder="linkedin.com/in/anaisabelmateus"
+              placeholder="https://linkedin.com/in/o-seu-nome"
               className="mt-1"
             />
           </div>
@@ -100,7 +100,7 @@ export function PersonalDataForm() {
               id="website"
               value={personalData.website}
               onChange={(e) => updatePersonalData({ website: e.target.value })}
-              placeholder="anaisabel.design"
+              placeholder="https://o-seu-portfolio.com"
               className="mt-1"
             />
           </div>

@@ -87,10 +87,14 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
               <ContactItem icon={MapPin} color={safeColor}>{personalData.address}</ContactItem>
             )}
             {personalData.linkedin && (
-              <ContactItem icon={Linkedin} color={safeColor}>{personalData.linkedin}</ContactItem>
+              <ContactItem icon={Linkedin} color={safeColor}>
+                <a href={personalData.linkedin} target="_blank" rel="noreferrer">{personalData.linkedin}</a>
+              </ContactItem>
             )}
             {personalData.website && (
-              <ContactItem icon={Globe} color={safeColor}>{personalData.website}</ContactItem>
+              <ContactItem icon={Globe} color={safeColor}>
+                <a href={personalData.website} target="_blank" rel="noreferrer">{personalData.website}</a>
+              </ContactItem>
             )}
           </div>
         </div>

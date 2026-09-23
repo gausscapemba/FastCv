@@ -11,7 +11,7 @@ export function SummaryForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Resumo Profissional</h3>
-        <p className="text-gray-600">Descreva brevemente sua experiência e objetivos</p>
+        <p className="text-gray-600">Descreva brevemente a sua experiência e os seus objectivos</p>
       </div>
 
       <div>

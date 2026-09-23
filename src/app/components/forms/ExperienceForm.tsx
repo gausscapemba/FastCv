@@ -119,7 +119,7 @@ export function ExperienceForm() {
               id="expTitle"
               value={newExp.title}
               onChange={(e) => setNewExp({ ...newExp, title: e.target.value })}
-              placeholder="Desenvolvedor Full Stack"
+              placeholder="Programador Full Stack"
               className="mt-1"
             />
           </div>
@@ -133,7 +133,7 @@ export function ExperienceForm() {
               id="expCompany"
               value={newExp.company}
               onChange={(e) => setNewExp({ ...newExp, company: e.target.value })}
-              placeholder="Tech Company"
+              placeholder="Empresa de Tecnologia"
               className="mt-1"
             />
           </div>

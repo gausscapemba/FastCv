@@ -66,7 +66,7 @@ export function EducationForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Formação Acadêmica</h3>
-        <p className="text-gray-600">Adicione sua educação e certificações</p>
+        <p className="text-gray-600">Adicione a sua formação e certificações</p>
       </div>
 
       {/* Existing education */}
@@ -119,7 +119,7 @@ export function EducationForm() {
               id="eduDegree"
               value={newEdu.degree}
               onChange={(e) => setNewEdu({ ...newEdu, degree: e.target.value })}
-              placeholder="Bacharelado em Ciência da Computação"
+              placeholder="Licenciatura em Engenharia Informática"
               className="mt-1"
             />
           </div>
@@ -133,7 +133,7 @@ export function EducationForm() {
               id="eduInstitution"
               value={newEdu.institution}
               onChange={(e) => setNewEdu({ ...newEdu, institution: e.target.value })}
-              placeholder="Universidade de São Paulo"
+              placeholder="Universidade Agostinho Neto"
               className="mt-1"
             />
           </div>

@@ -32,14 +32,14 @@ export function LandingPage({ onStart }: LandingPageProps) {
       <main className="mx-auto max-w-7xl px-6 py-24">
         <div className="text-center space-y-8">
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
-            Crie seu CV profissional
+            Crie o seu CV profissional
             <br />
             <span className="text-green-600">em minutos</span>
           </h1>
 
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Ferramenta rápida e intuitiva para criar currículos profissionais
-            com preview em tempo real. Seu CV pronto quando você precisar!
+            com pré-visualização em tempo real. O seu CV pronto quando precisar!
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row justify-center gap-4">
@@ -68,7 +68,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
               </div>
               <h3 className="font-semibold">Ultra Rápido</h3>
               <p className="text-sm text-gray-600">
-                Crie seu CV em poucos minutos com nosso formulário intuitivo
+                Crie o seu CV em poucos minutos com o nosso formulário intuitivo
               </p>
             </div>
 
@@ -88,7 +88,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
               </div>
               <h3 className="font-semibold">Personalizável</h3>
               <p className="text-sm text-gray-600">
-                Escolha cores e templates que combinam com você
+                Escolha cores e modelos que combinam consigo
               </p>
             </div>
 
@@ -98,7 +98,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
               </div>
               <h3 className="font-semibold">Download Imediato</h3>
               <p className="text-sm text-gray-600">
-                Baixe seu CV em PDF profissional instantaneamente
+                Descarregue o seu CV em PDF profissional instantaneamente
               </p>
             </div>
           </div>
