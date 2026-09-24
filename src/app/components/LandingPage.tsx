@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, Palette, Download, Clock } from 'lucide-react';
+import { Zap, Palette, Download, Clock, ShieldCheck, Briefcase, Save } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 
 interface LandingPageProps {
@@ -61,11 +61,12 @@ export function LandingPage({ onStart }: LandingPageProps) {
           </div>
 
           {/* Features */}
-          <div className="grid md:grid-cols-4 gap-8 pt-16">
+          <div className="grid gap-8 pt-16 sm:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-3">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
                 <Zap className="h-6 w-6 text-green-600" />
               </div>
+
               <h3 className="font-semibold">Ultra Rápido</h3>
               <p className="text-sm text-gray-600">
                 Crie o seu CV em poucos minutos com o nosso formulário intuitivo
@@ -100,6 +101,31 @@ export function LandingPage({ onStart }: LandingPageProps) {
               <p className="text-sm text-gray-600">
                 Descarregue o seu CV em PDF profissional instantaneamente
               </p>
+            </div>
+          </div>
+
+          <div className="mt-16 rounded-2xl border border-green-100 bg-white/80 p-6 text-left shadow-sm">
+            <div className="mb-6 text-center">
+              <h2 className="text-2xl font-bold text-gray-900">Mais do que um gerador de CV</h2>
+              <p className="mt-2 text-gray-600">Crie, reveja e adapte o seu currículo sem sair da aplicação.</p>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex gap-3">
+                <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <div><h3 className="font-semibold">Modo ATS</h3><p className="text-sm text-gray-600">Estrutura simples e texto pesquisável.</p></div>
+              </div>
+              <div className="flex gap-3">
+                <Zap className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <div><h3 className="font-semibold">Revisão automática</h3><p className="text-sm text-gray-600">Avisos sobre campos, datas e links.</p></div>
+              </div>
+              <div className="flex gap-3">
+                <Briefcase className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <div><h3 className="font-semibold">Adaptação à vaga</h3><p className="text-sm text-gray-600">Compare o CV com uma descrição de vaga.</p></div>
+              </div>
+              <div className="flex gap-3">
+                <Save className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <div><h3 className="font-semibold">Versões e backups</h3><p className="text-sm text-gray-600">Guarde versões e exporte backups JSON.</p></div>
+              </div>
             </div>
           </div>
         </div>
