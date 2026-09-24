@@ -110,20 +110,20 @@ export function LandingPage({ onStart }: LandingPageProps) {
               <p className="mt-2 text-gray-600">Crie, reveja e adapte o seu currículo sem sair da aplicação.</p>
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex gap-3">
-                <ShieldCheck className="h-5 w-5 shrink-0 self-center text-green-600" />
+              <div className="space-y-3 text-center">
+                <ShieldCheck className="mx-auto h-8 w-8 text-green-600" />
                 <div><h3 className="font-semibold">Modo ATS</h3><p className="text-sm text-gray-600">Estrutura simples e texto pesquisável.</p></div>
               </div>
-              <div className="flex gap-3">
-                <Zap className="h-5 w-5 shrink-0 self-center text-green-600" />
+              <div className="space-y-3 text-center">
+                <Zap className="mx-auto h-8 w-8 text-green-600" />
                 <div><h3 className="font-semibold">Revisão automática</h3><p className="text-sm text-gray-600">Avisos sobre campos, datas e links.</p></div>
               </div>
-              <div className="flex gap-3">
-                <Briefcase className="h-5 w-5 shrink-0 self-center text-green-600" />
+              <div className="space-y-3 text-center">
+                <Briefcase className="mx-auto h-8 w-8 text-green-600" />
                 <div><h3 className="font-semibold">Adaptação à vaga</h3><p className="text-sm text-gray-600">Compare o CV com uma descrição de vaga.</p></div>
               </div>
-              <div className="flex gap-3">
-                <Save className="h-5 w-5 shrink-0 self-center text-green-600" />
+              <div className="space-y-3 text-center">
+                <Save className="mx-auto h-8 w-8 text-green-600" />
                 <div><h3 className="font-semibold">Versões e backups</h3><p className="text-sm text-gray-600">Guarde versões e exporte backups JSON.</p></div>
               </div>
             </div>
