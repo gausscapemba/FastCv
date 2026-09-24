@@ -111,19 +111,19 @@ export function LandingPage({ onStart }: LandingPageProps) {
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               <div className="flex gap-3">
-                <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <ShieldCheck className="h-5 w-5 shrink-0 self-center text-green-600" />
                 <div><h3 className="font-semibold">Modo ATS</h3><p className="text-sm text-gray-600">Estrutura simples e texto pesquisável.</p></div>
               </div>
               <div className="flex gap-3">
-                <Zap className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <Zap className="h-5 w-5 shrink-0 self-center text-green-600" />
                 <div><h3 className="font-semibold">Revisão automática</h3><p className="text-sm text-gray-600">Avisos sobre campos, datas e links.</p></div>
               </div>
               <div className="flex gap-3">
-                <Briefcase className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <Briefcase className="h-5 w-5 shrink-0 self-center text-green-600" />
                 <div><h3 className="font-semibold">Adaptação à vaga</h3><p className="text-sm text-gray-600">Compare o CV com uma descrição de vaga.</p></div>
               </div>
               <div className="flex gap-3">
-                <Save className="mt-1 h-5 w-5 shrink-0 text-green-600" />
+                <Save className="h-5 w-5 shrink-0 self-center text-green-600" />
                 <div><h3 className="font-semibold">Versões e backups</h3><p className="text-sm text-gray-600">Guarde versões e exporte backups JSON.</p></div>
               </div>
             </div>
