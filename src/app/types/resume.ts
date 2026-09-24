@@ -45,6 +45,7 @@ export interface ResumeData {
 export interface ResumeSettings {
   template: 'europass' | 'classic' | 'modern';
   primaryColor: string;
+  atsMode: boolean;
   showSections: {
     summary: boolean;
     experience: boolean;

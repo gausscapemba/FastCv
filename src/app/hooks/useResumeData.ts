@@ -22,6 +22,7 @@ export function useResumeData() {
     updateSettings,
     loadDemoData,
     resetResumeData,
+    importResume,
   } = ctx;
 
   return {
@@ -41,6 +42,7 @@ export function useResumeData() {
     updateProjects,
     updateCourses,
     updateSettings,
+    importResume,
     loadDemoData,
     resetResumeData,
   };

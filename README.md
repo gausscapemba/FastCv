@@ -12,6 +12,8 @@ O projeto permite:
 - preencher dados pessoais, resumo, experiência, formação, competências, idiomas, certificações, projectos e cursos complementares
 - visualizar o currículo em tempo real
 - personalizar template e cores
+- activar um modo ATS simplificado e rever problemas de completude antes da exportação
+- guardar automaticamente os dados no navegador e criar/importar backups JSON
 - exportar o resultado em PDF
 
 ## Requisitos
@@ -110,6 +112,9 @@ qualquer ATS; a interpretação depende da plataforma e do anúncio.
 A síntese das fontes académicas, técnicas e profissionais usadas para orientar
 o produto está em
 [docs/pesquisa-curriculos-angola-internacional.md](./docs/pesquisa-curriculos-angola-internacional.md).
+
+Também está disponível a análise comparativa individual das plataformas de criação de CV:
+[docs/analise-comparativa-plataformas-cv-2026-09.md](./docs/analise-comparativa-plataformas-cv-2026-09.md).
 
 ## Melhorias recentes
 

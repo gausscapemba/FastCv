@@ -6,7 +6,7 @@ import { formatResumeDate } from '@/app/utils/resumeDate';
 export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settings: ResumeSettings }) => {
   const { personalData, summary, experiences, education, skills, languages, certifications, projects, courses } = data;
   const color = settings.primaryColor || '#2563eb';
-  const isModern = settings.template === 'modern';
+  const isModern = settings.template === 'modern' && !settings.atsMode;
   const isClassic = settings.template === 'classic';
   const sectionIsVisible = (section: keyof ResumeSettings['showSections']) =>
     settings.showSections[section] !== false;

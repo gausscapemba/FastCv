@@ -46,7 +46,7 @@ export const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ d
   const { primaryColor, showSections } = settings;
 
   const safeColor = normalizeColor(primaryColor);
-  const isModern = settings.template === 'modern';
+  const isModern = settings.template === 'modern' && !settings.atsMode;
   const isClassic = settings.template === 'classic';
 
   return (

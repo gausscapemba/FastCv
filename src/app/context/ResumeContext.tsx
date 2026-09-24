@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode, useEffect } from 'react';
 import type {
   ResumeData,
   ResumeSettings,
@@ -6,6 +6,7 @@ import type {
   Experience,
   Education,
 } from '@/app/types/resume';
+import { loadStoredResume, saveStoredResume } from '@/app/utils/resumeStorage';
 interface ResumeContextType {
   resumeData: ResumeData;
   settings: ResumeSettings;
@@ -23,6 +24,7 @@ interface ResumeContextType {
   updateProjects: (items: string[]) => void;
   updateCourses: (items: string[]) => void;
   updateSettings: (settings: Partial<ResumeSettings>) => void;
+  importResume: (data: ResumeData, settings: ResumeSettings) => void;
   loadDemoData: () => void;
   resetResumeData: () => void;
 }
@@ -52,6 +54,7 @@ const defaultResumeData: ResumeData = {
 const defaultSettings: ResumeSettings = {
   template: 'europass',
   primaryColor: '#16a34a',
+  atsMode: false,
   showSections: {
     summary: true,
     experience: true,
@@ -119,8 +122,15 @@ const demoResumeData: ResumeData = {
 };
 
 export function ResumeProvider({ children }: { children: ReactNode }) {
-  const [resumeData, setResumeData] = useState<ResumeData>(defaultResumeData);
-  const [settings, setSettings] = useState<ResumeSettings>(defaultSettings);
+  const [storedResume] = useState(() => loadStoredResume());
+  const [resumeData, setResumeData] = useState<ResumeData>(storedResume?.data ?? defaultResumeData);
+  const [settings, setSettings] = useState<ResumeSettings>(
+    storedResume ? { ...defaultSettings, ...storedResume.settings } : defaultSettings,
+  );
+
+  useEffect(() => {
+    saveStoredResume(resumeData, settings);
+  }, [resumeData, settings]);
 
   const updatePersonalData = useCallback((data: Partial<PersonalData>) => {
     setResumeData((prev) => ({
@@ -212,6 +222,11 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     setSettings(defaultSettings);
   }, []);
 
+  const importResume = useCallback((data: ResumeData, importedSettings: ResumeSettings) => {
+    setResumeData(data);
+    setSettings({ ...defaultSettings, ...importedSettings });
+  }, []);
+
   const value = useMemo(() => ({
     resumeData,
     settings,
@@ -231,7 +246,8 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
     updateSettings,
     loadDemoData,
     resetResumeData,
-  }), [resumeData, settings, updatePersonalData, updateSummary, addExperience, updateExperience, deleteExperience, addEducation, updateEducation, deleteEducation, updateSkills, updateLanguages, updateCertifications, updateProjects, updateCourses, updateSettings, loadDemoData, resetResumeData]);
+    importResume,
+  }), [resumeData, settings, updatePersonalData, updateSummary, addExperience, updateExperience, deleteExperience, addEducation, updateEducation, deleteEducation, updateSkills, updateLanguages, updateCertifications, updateProjects, updateCourses, updateSettings, loadDemoData, resetResumeData, importResume]);
 
   return (
     <ResumeContext.Provider value={value}>
