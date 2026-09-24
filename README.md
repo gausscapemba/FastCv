@@ -116,6 +116,11 @@ o produto está em
 Também está disponível a análise comparativa individual das plataformas de criação de CV:
 [docs/analise-comparativa-plataformas-cv-2026-09.md](./docs/analise-comparativa-plataformas-cv-2026-09.md).
 
+A documentação completa do produto, manual de uso, casos de uso, arquitectura e
+informações técnicas está disponível em
+[docs/documentacao-projecto.md](./docs/documentacao-projecto.md) e em
+[PDF](./docs/documentacao-projecto.pdf).
+
 ## Melhorias recentes
 
 - adição de exemplo de CV pré-carregado
