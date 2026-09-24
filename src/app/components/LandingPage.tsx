@@ -111,19 +111,27 @@ export function LandingPage({ onStart }: LandingPageProps) {
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               <div className="space-y-3 text-center">
-                <ShieldCheck className="mx-auto h-8 w-8 text-green-600" />
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
+                  <ShieldCheck className="h-6 w-6 text-green-600" />
+                </div>
                 <div><h3 className="font-semibold">Modo ATS</h3><p className="text-sm text-gray-600">Estrutura simples e texto pesquisável.</p></div>
               </div>
               <div className="space-y-3 text-center">
-                <Zap className="mx-auto h-8 w-8 text-green-600" />
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
+                  <Zap className="h-6 w-6 text-green-600" />
+                </div>
                 <div><h3 className="font-semibold">Revisão automática</h3><p className="text-sm text-gray-600">Avisos sobre campos, datas e links.</p></div>
               </div>
               <div className="space-y-3 text-center">
-                <Briefcase className="mx-auto h-8 w-8 text-green-600" />
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
+                  <Briefcase className="h-6 w-6 text-green-600" />
+                </div>
                 <div><h3 className="font-semibold">Adaptação à vaga</h3><p className="text-sm text-gray-600">Compare o CV com uma descrição de vaga.</p></div>
               </div>
               <div className="space-y-3 text-center">
-                <Save className="mx-auto h-8 w-8 text-green-600" />
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
+                  <Save className="h-6 w-6 text-green-600" />
+                </div>
                 <div><h3 className="font-semibold">Versões e backups</h3><p className="text-sm text-gray-600">Guarde versões e exporte backups JSON.</p></div>
               </div>
             </div>
