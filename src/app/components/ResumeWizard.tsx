@@ -18,7 +18,8 @@ import { CustomizationForm } from '@/app/components/forms/CustomizationForm';
 import { Button } from '@/app/components/ui/button';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 
-import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, UserRound, AlignLeft, BriefcaseBusiness, GraduationCap, Wrench, Languages, ListChecks, Palette } from 'lucide-react';
+import type { ReadyTemplateId, ResumeStartMode } from '@/app/types/resume';
 
 const steps: Step[] = [
   { id: 0, title: 'Dados Pessoais', description: 'Informações básicas' },
@@ -32,22 +33,25 @@ const steps: Step[] = [
 
 interface ResumeWizardProps {
   onBack: () => void;
-  initialMode?: 'empty' | 'demo';
+  initialMode?: ResumeStartMode;
 }
 
 export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [showCustomization, setShowCustomization] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
-  const { resumeData, settings, loadDemoData, resetResumeData } = useResume();
+  const { resumeData, settings, loadDemoData, loadReadyTemplate, resetResumeData } = useResume();
+  const isDirectMode = initialMode.startsWith('template-');
 
   React.useEffect(() => {
     if (initialMode === 'demo') {
       loadDemoData();
+    } else if (initialMode.startsWith('template-')) {
+      loadReadyTemplate(initialMode.replace('template-', '') as ReadyTemplateId);
     } else {
       resetResumeData();
     }
-  }, [initialMode, loadDemoData, resetResumeData]);
+  }, [initialMode, loadDemoData, loadReadyTemplate, resetResumeData]);
 
   /** ---------------- VALIDAÇÃO ---------------- */
   const validateCurrentStep = useCallback((): boolean => {
@@ -130,27 +134,37 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
           >
             CVRápido
           </button>
-          {showCustomization && (
-            <div className="flex items-center gap-2">
-              <Button variant="outline" onClick={() => resetResumeData()} className="hidden sm:inline-flex">
-                Limpar
-              </Button>
-              <Button onClick={handleExportPDF} className="bg-green-600 hover:bg-green-700 text-xs sm:text-sm">
-                <Download className="h-4 w-4 mr-1 sm:mr-2" /> Exportar PDF
-              </Button>
-            </div>
-          )}
         </div>
       </header>
 
       {/* CONTEÚDO */}
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6 py-6 sm:py-8">
-        {!showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
-        {initialMode === 'demo' && currentStep === 0 && !showCustomization && (
+        {!isDirectMode && !showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
+        {(initialMode === 'demo' || isDirectMode) && (isDirectMode || currentStep === 0) && !showCustomization && (
           <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            <strong>Exemplo de demonstração:</strong> estes dados são fictícios.
-            Substitua-os pelos seus dados antes de exportar e enviar o CV.
+            <strong>Modelo de demonstração:</strong> estes dados são fictícios.
+            Edite os campos directamente e substitua-os pelos seus dados antes de exportar.
           </div>
+        )}
+        {isDirectMode && (
+          <nav aria-label="Navegação do currículo" className="sticky top-[57px] z-[9] mb-6 -mx-4 overflow-x-auto border-y bg-white px-4 shadow-sm sm:top-[65px] sm:mx-0 sm:rounded-md sm:border">
+            <div className="mx-auto flex w-max min-w-full items-center gap-1 py-2 sm:justify-center">
+              {[
+                { id: 'personal-data', label: 'Dados', Icon: UserRound },
+                { id: 'summary', label: 'Resumo', Icon: AlignLeft },
+                { id: 'experience', label: 'Experiência', Icon: BriefcaseBusiness },
+                { id: 'education', label: 'Formação', Icon: GraduationCap },
+                { id: 'skills', label: 'Competências', Icon: Wrench },
+                { id: 'languages', label: 'Idiomas', Icon: Languages },
+                { id: 'extras', label: 'Complementos', Icon: ListChecks },
+                { id: 'customization', label: 'Aparência', Icon: Palette },
+              ].map(({ id, label, Icon }) => (
+                <a key={id} href={`#${id}`} className="flex shrink-0 items-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium text-gray-600 hover:bg-green-50 hover:text-green-800 sm:text-sm">
+                  <Icon className="h-4 w-4" />{label}
+                </a>
+              ))}
+            </div>
+          </nav>
         )}
         {validationErrors.length > 0 && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -160,10 +174,32 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
           </div>
         )}
 
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(0,680px)] gap-5 xl:gap-6">
+        {(showCustomization || isDirectMode) && (
+          <div className="mb-4 flex justify-end gap-2 xl:hidden">
+            <Button variant="outline" size="sm" onClick={() => resetResumeData()}>Limpar</Button>
+            <Button size="sm" onClick={handleExportPDF} className="bg-green-600 hover:bg-green-700">
+              <Download className="mr-2 h-4 w-4" /> Exportar PDF
+            </Button>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] gap-5 xl:gap-6">
           <div className="min-w-0">
-            <ScrollArea className="h-auto max-h-none xl:h-[calc(100vh-250px)] pr-0 xl:pr-3">{renderForm()}</ScrollArea>
-            <div className="flex gap-2 pt-4 border-t sm:justify-end">
+            {isDirectMode ? (
+              <div className="space-y-8">
+                <section id="personal-data" className="scroll-mt-36"><PersonalDataForm /></section>
+                <section id="summary" className="scroll-mt-36"><SummaryForm /></section>
+                <section id="experience" className="scroll-mt-36"><ExperienceForm /></section>
+                <section id="education" className="scroll-mt-36"><EducationForm /></section>
+                <section id="skills" className="scroll-mt-36"><SkillsForm /></section>
+                <section id="languages" className="scroll-mt-36"><LanguagesForm /></section>
+                <section id="extras" className="scroll-mt-36"><AdditionalSectionsForm /></section>
+                <section id="customization" className="scroll-mt-36"><CustomizationForm /></section>
+              </div>
+            ) : (
+              <>
+                <ScrollArea className="h-auto max-h-none xl:h-[calc(100vh-250px)] pr-0 xl:pr-3">{renderForm()}</ScrollArea>
+                <div className="flex gap-2 pt-4 border-t sm:justify-end">
               <Button
                 variant="outline"
                 onClick={handleBack}
@@ -182,19 +218,32 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
                 </span>
                 {!showCustomization && <ArrowRight className="h-3.5 w-3.5 sm:ml-1" />}
               </Button>
-            </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* PREVIEW VISUAL */}
           <div className="hidden xl:block">
             <div className="sticky top-24">
-              <ScrollArea className="h-[calc(100vh-140px)]">
-                <div className="flex justify-center">
-                  <div className="w-full max-w-[680px]">
+              {(showCustomization || isDirectMode) && (
+                <div className="mb-2 flex items-center justify-between px-1">
+                  <span className="text-xs font-medium text-gray-500">Pré-visualização do CV</span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => resetResumeData()}>Limpar</Button>
+                    <Button size="sm" onClick={handleExportPDF} className="bg-green-600 hover:bg-green-700">
+                      <Download className="mr-1.5 h-4 w-4" /> PDF
+                    </Button>
+                  </div>
+                </div>
+              )}
+              <div className="mx-auto w-[360px] overflow-hidden rounded-md border border-gray-200 bg-gray-100 p-1 shadow-sm">
+                <div className="h-[510px] w-full overflow-hidden bg-white">
+                  <div style={{ width: '800px', transform: 'scale(0.45)', transformOrigin: 'top left' }}>
                     <ResumePreview data={resumeData} settings={settings} />
                   </div>
                 </div>
-              </ScrollArea>
+              </div>
             </div>
           </div>
         </div>

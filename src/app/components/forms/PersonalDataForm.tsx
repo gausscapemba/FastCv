@@ -1,11 +1,42 @@
 import React from 'react';
+import { useState } from 'react';
 import useResumeData from '@/app/hooks/useResumeData';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
+import { Button } from '@/app/components/ui/button';
 
 export function PersonalDataForm() {
-  const { resumeData, updatePersonalData } = useResumeData();
+  const { resumeData, settings, updatePersonalData } = useResumeData();
   const { personalData } = resumeData;
+  const [photoError, setPhotoError] = useState('');
+  const supportsPhoto = settings.layout === 'photo-side'
+    || settings.layout === 'photo-centered'
+    || (!settings.layout && Boolean(settings.photoLayout));
+
+  const loadPhoto = async (file?: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setPhotoError('Seleccione um ficheiro de imagem.');
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setPhotoError('A imagem deve ter menos de 10 MB.');
+      return;
+    }
+    try {
+      const bitmap = await createImageBitmap(file);
+      const scale = Math.min(1, 640 / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      canvas.getContext('2d')?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close();
+      updatePersonalData({ photo: canvas.toDataURL('image/jpeg', 0.82) });
+      setPhotoError('');
+    } catch {
+      setPhotoError('Não foi possível carregar esta imagem.');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -15,6 +46,20 @@ export function PersonalDataForm() {
       </div>
 
       <div className="space-y-4">
+        {supportsPhoto && <div className="flex flex-wrap items-center gap-4 rounded-md border bg-white p-3">
+          {personalData.photo ? (
+            <img src={personalData.photo} alt="Pré-visualização da fotografia do CV" className="h-16 w-16 rounded-full object-cover" />
+          ) : (
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-xs text-gray-500">Foto</div>
+          )}
+          <div className="min-w-0 flex-1">
+            <Label htmlFor="resumePhoto">Fotografia</Label>
+            <Input id="resumePhoto" type="file" accept="image/*" className="mt-1" onChange={(event) => void loadPhoto(event.target.files?.[0])} />
+            <p className="mt-1 text-xs text-gray-500">Opcional. A fotografia só aparece nos modelos com foto.</p>
+            {photoError && <p role="alert" className="mt-1 text-xs text-red-700">{photoError}</p>}
+          </div>
+          {personalData.photo && <Button type="button" variant="outline" size="sm" onClick={() => updatePersonalData({ photo: '' })}>Remover</Button>}
+        </div>}
         <div>
           <Label htmlFor="fullName">
             <span>Nome Completo</span>

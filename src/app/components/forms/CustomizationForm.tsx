@@ -3,17 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import useResumeData from '@/app/hooks/useResumeData';
 import { Label } from '@/app/components/ui/label';
 import { Switch } from '@/app/components/ui/switch';
-import { RadioGroup, RadioGroupItem } from '@/app/components/ui/radio-group';
 import { Card } from '@/app/components/ui/card';
 import { Input } from '@/app/components/ui/input';
-import { Textarea } from '@/app/components/ui/textarea';
 import { Button } from '@/app/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/app/components/ui/alert';
-import { reviewResume } from '@/app/utils/resumeReview';
 import { createResumeBackup, parseResumeBackup } from '@/app/utils/resumeStorage';
-import { analyzeJobMatch, type JobMatchResult } from '@/app/utils/jobMatch';
 import { loadResumeVersions, saveResumeVersions, type ResumeVersion } from '@/app/utils/resumeVersions';
-import { Download, Upload, ShieldCheck, AlertTriangle, Lightbulb, Briefcase, Copy, Trash2 } from 'lucide-react';
+import { Download, Upload, ShieldCheck, Copy, Trash2 } from 'lucide-react';
 
 const colors = [
   { name: 'Azul', value: '#2563eb' },
@@ -24,32 +19,11 @@ const colors = [
   { name: 'Cinza', value: '#475569' },
 ];
 
-const templates = [
-  {
-    id: 'europass',
-    name: 'Europass',
-    description: 'Estrutura padronizada, organizada e adequada para candidaturas na Europa e instituições formais.',
-  },
-  {
-    id: 'classic',
-    name: 'Clássico',
-    description: 'Visual sóbrio, linear e discreto, ideal para bancos, administração pública e empresas tradicionais.',
-  },
-  {
-    id: 'modern',
-    name: 'Moderno',
-    description: 'Layout contemporâneo com mais destaque visual, indicado para tecnologia, design, marketing e áreas criativas.',
-  },
-];
-
 export function CustomizationForm() {
   const { resumeData, settings, updateSettings, importResume } = useResumeData();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const reviewIssues = reviewResume(resumeData);
   const [versions, setVersions] = useState<ResumeVersion[]>([]);
   const [versionName, setVersionName] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [jobMatch, setJobMatch] = useState<JobMatchResult | null>(null);
 
   useEffect(() => {
     setVersions(loadResumeVersions());
@@ -105,19 +79,6 @@ export function CustomizationForm() {
         <p className="text-gray-600">Personalize a aparência do seu currículo</p>
       </div>
 
-      <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900">
-        <p className="font-medium">Como escolher?</p>
-        <p className="mt-1 leading-relaxed">
-          Escolha Europass para candidaturas formais e internacionais, Clássico
-          para ambientes conservadores ou Moderno para destacar criatividade e
-          inovação. A escolha altera o layout do PDF exportado.
-        </p>
-        <p className="mt-2 text-xs text-blue-800">
-          Todos os modelos exportam texto pesquisável. Nenhum modelo garante
-          aceitação por um ATS específico.
-        </p>
-      </div>
-
       <div className="space-y-4 rounded-lg border bg-white p-4">
         <div className="flex items-start gap-3">
           <ShieldCheck className="mt-0.5 h-5 w-5 text-green-700" />
@@ -135,35 +96,6 @@ export function CustomizationForm() {
             aria-label="Activar modo ATS"
           />
         </div>
-      </div>
-
-      <div className="space-y-3 rounded-lg border bg-white p-4">
-        <div>
-          <h4 className="font-semibold">Revisão do CV</h4>
-          <p className="mt-1 text-sm text-gray-600">
-            Verificações locais de completude e consistência. Não é uma pontuação ATS.
-          </p>
-        </div>
-        {reviewIssues.length === 0 ? (
-          <Alert className="border-green-200 bg-green-50 text-green-900">
-            <ShieldCheck />
-            <AlertTitle>Sem alertas encontrados</AlertTitle>
-            <AlertDescription>Ainda assim, reveja o conteúdo antes de enviar.</AlertDescription>
-          </Alert>
-        ) : (
-          <div className="space-y-2">
-            {reviewIssues.map((issue) => {
-              const Icon = issue.severity === 'error' ? AlertTriangle : issue.severity === 'tip' ? Lightbulb : AlertTriangle;
-              return (
-                <Alert key={issue.id} variant={issue.severity === 'error' ? 'destructive' : 'default'} className="text-gray-800">
-                  <Icon />
-                  <AlertTitle>{issue.message}</AlertTitle>
-                  <AlertDescription>{issue.action}</AlertDescription>
-                </Alert>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -216,79 +148,6 @@ export function CustomizationForm() {
             ))}
           </ul>
         )}
-      </div>
-
-      <div className="space-y-4 rounded-lg border bg-white p-4">
-        <div className="flex items-start gap-3">
-          <Briefcase className="mt-0.5 h-5 w-5 text-green-700" />
-          <div>
-            <h4 className="font-semibold">Adaptar a uma vaga</h4>
-            <p className="mt-1 text-sm text-gray-600">Cole a descrição da vaga para identificar termos relevantes. O conteúdo não é alterado automaticamente.</p>
-          </div>
-        </div>
-        <Textarea value={jobDescription} onChange={(event) => setJobDescription(event.target.value)} placeholder="Cole aqui a descrição da vaga..." rows={6} />
-        <Button type="button" variant="outline" size="sm" onClick={() => setJobMatch(analyzeJobMatch(resumeData, jobDescription))} disabled={!jobDescription.trim()}>
-          Analisar correspondência
-        </Button>
-        {jobMatch && (
-          <div className="space-y-2 text-sm">
-            <p><strong>{jobMatch.matched.length}</strong> de <strong>{jobMatch.keywords.length}</strong> termos encontrados no CV.</p>
-            {jobMatch.missing.length > 0 && <p className="text-amber-800"><strong>Reveja, se forem verdadeiros:</strong> {jobMatch.missing.join(', ')}</p>}
-            {jobMatch.matched.length > 0 && <p className="text-green-800"><strong>Já aparecem:</strong> {jobMatch.matched.join(', ')}</p>}
-            <Button type="button" size="sm" variant="outline" onClick={() => {
-              setVersionName('Versão adaptada à vaga');
-              const next = [{
-                id: typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `${Date.now()}`,
-                name: 'Versão adaptada à vaga',
-                createdAt: new Date().toISOString(),
-                data: resumeData,
-                settings,
-              }, ...versions];
-              setVersions(next);
-              saveResumeVersions(next);
-            }}>
-              Guardar cópia desta candidatura
-            </Button>
-            <p className="text-xs text-gray-500">A análise é local e lexical; não é uma pontuação ATS nem substitui a revisão humana.</p>
-          </div>
-        )}
-      </div>
-
-      {/* Template Selection */}
-      <div className="space-y-4">
-        <Label>Selecione o Template</Label>
-        <RadioGroup
-          value={settings.template}
-          onValueChange={(value) =>
-            updateSettings({ template: value as 'europass' | 'classic' | 'modern' })
-          }
-        >
-          <div className="grid grid-cols-1 gap-3">
-            {templates.map((template) => (
-              <Card
-                key={template.id}
-                className={`p-4 cursor-pointer transition-all ${
-                  settings.template === template.id
-                    ? 'border-blue-600 bg-blue-50'
-                    : 'hover:border-gray-400'
-                }`}
-                onClick={() =>
-                  updateSettings({ template: template.id as 'europass' | 'classic' | 'modern' })
-                }
-              >
-                <div className="flex items-center space-x-3">
-                  <RadioGroupItem value={template.id} id={template.id} />
-                  <div className="min-w-0">
-                    <Label htmlFor={template.id} className="cursor-pointer">
-                      {template.name}
-                    </Label>
-                    <p className="mt-1 text-sm leading-relaxed text-gray-600">{template.description}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </RadioGroup>
       </div>
 
       {/* Color Selection */}

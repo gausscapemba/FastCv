@@ -6,6 +6,7 @@ export interface PersonalData {
   address: string;
   linkedin: string;
   website: string;
+  photo?: string;
 }
 
 export interface Experience {
@@ -43,7 +44,9 @@ export interface ResumeData {
 }
 
 export interface ResumeSettings {
-  template: 'europass' | 'classic' | 'modern';
+  template: 'europass' | 'classic' | 'modern' | 'functional';
+  layout?: ReadyTemplateId;
+  photoLayout?: 'side' | 'center';
   primaryColor: string;
   atsMode: boolean;
   showSections: {
@@ -57,5 +60,8 @@ export interface ResumeSettings {
     courses: boolean;
   };
 }
+
+export type ReadyTemplateId = 'first-job' | 'professional' | 'creative' | 'photo-side' | 'photo-centered' | 'functional';
+export type ResumeStartMode = 'empty' | 'demo' | 'analysis' | `template-${ReadyTemplateId}`;
 
 export type Language = { language: string; level: string };

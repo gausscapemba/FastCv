@@ -60,7 +60,8 @@ function isResumeData(value: unknown): value is ResumeData {
 
 function isResumeSettings(value: unknown): value is ResumeSettings {
   return isRecord(value)
-    && (value.template === 'europass' || value.template === 'classic' || value.template === 'modern')
+    && (value.template === 'europass' || value.template === 'classic' || value.template === 'modern' || value.template === 'functional')
+    && (value.layout === undefined || value.layout === 'first-job' || value.layout === 'professional' || value.layout === 'creative' || value.layout === 'photo-side' || value.layout === 'photo-centered' || value.layout === 'functional')
     && typeof value.primaryColor === 'string'
     && typeof value.atsMode === 'boolean'
     && isRecord(value.showSections);

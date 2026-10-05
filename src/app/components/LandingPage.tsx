@@ -1,17 +1,28 @@
 import React from 'react';
-import { Zap, Palette, Download, Clock, ShieldCheck, Briefcase, Save } from 'lucide-react';
+import { Zap, Palette, Download, Clock, ShieldCheck, Briefcase, Save, ArrowRight, FileText } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
+import type { ResumeStartMode } from '@/app/types/resume';
+import { ResumeTemplateCardPreview } from '@/app/components/ResumeTemplateCardPreview';
 
 interface LandingPageProps {
-  onStart: (mode?: 'empty' | 'demo') => void;
+  onStart: (mode?: ResumeStartMode) => void;
 }
 
 export function LandingPage({ onStart }: LandingPageProps) {
+  const readyTemplates: Array<{ mode: ResumeStartMode; name: string; layout: 'simple' | 'classic' | 'creative' | 'photo-side' | 'photo-center' | 'functional' }> = [
+    { mode: 'template-first-job', name: 'CV essencial', layout: 'simple' },
+    { mode: 'template-professional', name: 'Experiência profissional', layout: 'classic' },
+    { mode: 'template-creative', name: 'Tecnologia e criatividade', layout: 'creative' },
+    { mode: 'template-photo-side', name: 'Foto lateral', layout: 'photo-side' },
+    { mode: 'template-photo-centered', name: 'Foto central', layout: 'photo-center' },
+    { mode: 'template-functional', name: 'CV funcional', layout: 'functional' },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -25,6 +36,11 @@ export function LandingPage({ onStart }: LandingPageProps) {
               CVRápido
             </button>
           </div>
+          <nav aria-label="Navegação principal" className="flex items-center gap-4 text-sm font-medium text-gray-700 sm:gap-6">
+            <a href="#ready-templates" className="hover:text-green-700">Modelos</a>
+            <a href="#services" className="hover:text-green-700">Serviços</a>
+            <button type="button" onClick={() => onStart('empty')} className="hidden rounded-md bg-green-700 px-3 py-2 text-white hover:bg-green-800 sm:inline-flex">Criar CV</button>
+          </nav>
         </div>
       </header>
 
@@ -60,8 +76,45 @@ export function LandingPage({ onStart }: LandingPageProps) {
             </Button>
           </div>
 
+          <section id="ready-templates" className="scroll-mt-24 pt-16 text-left">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Comece com um modelo pronto</h2>
+                <p className="mt-1 text-gray-600">Escolha um currículo de exemplo e substitua os dados fictícios pelos seus.</p>
+              </div>
+              <p className="text-sm text-gray-500">Todos os dados são fictícios e editáveis</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {readyTemplates.map((template) => (
+                <button key={template.mode} type="button" onClick={() => onStart(template.mode)} className="group overflow-hidden rounded-lg border border-gray-200 bg-white text-left shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600">
+                  <div className="flex h-[280px] items-start justify-center overflow-hidden bg-gray-100 px-6 pt-4 sm:h-[320px]">
+                    <div className="h-[480px] w-[340px] shrink-0 origin-top scale-[0.72] overflow-hidden rounded-sm bg-white shadow-md ring-1 ring-black/5 sm:scale-[0.82]">
+                      <ResumeTemplateCardPreview layout={template.layout} />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 p-4">
+                    <h3 className="font-semibold text-gray-900">{template.name}</h3>
+                    <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-green-700">Usar modelo <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+
           {/* Features */}
-          <div className="grid gap-8 pt-16 sm:grid-cols-2 lg:grid-cols-4">
+          <section id="services" className="scroll-mt-24 pt-16">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div><h2 className="text-2xl font-bold text-gray-900">Serviços</h2><p className="mt-1 text-gray-600">Crie o currículo ou trabalhe sobre um CV já concluído.</p></div>
+            </div>
+            <div className="mb-8 grid gap-4 sm:grid-cols-2">
+              <button type="button" onClick={() => onStart('empty')} className="flex items-center justify-between gap-4 rounded-lg border border-green-200 bg-white p-5 text-left shadow-sm transition hover:border-green-500 hover:shadow-md">
+                <span><strong className="block text-gray-900">Criar um CV</strong><span className="mt-1 block text-sm text-gray-600">Comece em branco ou escolha um modelo pronto.</span></span><FileText className="h-6 w-6 shrink-0 text-green-700" />
+              </button>
+              <button type="button" onClick={() => onStart('analysis')} className="flex items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white p-5 text-left shadow-sm transition hover:border-green-500 hover:shadow-md">
+                <span><strong className="block text-gray-900">Analisar um CV pronto</strong><span className="mt-1 block text-sm text-gray-600">Importe um CV concluído e compare-o com uma vaga.</span></span><Briefcase className="h-6 w-6 shrink-0 text-green-700" />
+              </button>
+            </div>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-3">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
                 <Zap className="h-6 w-6 text-green-600" />
@@ -89,8 +142,8 @@ export function LandingPage({ onStart }: LandingPageProps) {
               </div>
               <h3 className="font-semibold">Personalizável</h3>
               <p className="text-sm text-gray-600">
-                Escolha cores e modelos que combinam consigo
-              </p>
+                  Escolha entre modelos prontos e ajuste as cores
+                </p>
             </div>
 
             <div className="space-y-3">
@@ -103,6 +156,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
               </p>
             </div>
           </div>
+          </section>
 
           <div className="mt-16 rounded-2xl border border-green-100 bg-white/80 p-6 text-left shadow-sm">
             <div className="mb-6 text-center">
@@ -120,7 +174,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
                   <Zap className="h-6 w-6 text-green-600" />
                 </div>
-                <div><h3 className="font-semibold">Revisão automática</h3><p className="text-sm text-gray-600">Avisos sobre campos, datas e links.</p></div>
+                <div><h3 className="font-semibold">Revisão de CV pronto</h3><p className="text-sm text-gray-600">Verificações de consistência como serviço separado.</p></div>
               </div>
               <div className="space-y-3 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
