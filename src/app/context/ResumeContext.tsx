@@ -55,7 +55,7 @@ const defaultResumeData: ResumeData = {
 
 const defaultSettings: ResumeSettings = {
   template: 'europass',
-  primaryColor: '#16a34a',
+  primaryColor: '#174A3B',
   atsMode: false,
   showSections: {
     summary: true,

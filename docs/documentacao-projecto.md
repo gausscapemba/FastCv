@@ -16,6 +16,7 @@ O produto não promete aprovação automática por ATS. O modo ATS e a revisão 
 - dados pessoais, resumo, experiência, formação, competências e idiomas;
 - certificações, projectos e cursos complementares;
 - seis modelos prontos: CV essencial, Experiência profissional, Tecnologia e criatividade, Foto lateral, Foto central e CV funcional;
+- fluxo sequencial de edição para CV vazio, exemplar e todos os modelos prontos;
 - personalização da cor principal e controlo das secções visíveis;
 - preview responsivo;
 - PDF A4 pesquisável e seleccionável;
@@ -32,17 +33,15 @@ O produto não promete aprovação automática por ATS. O modo ATS e a revisão 
 
 ### 3.1 Criar um CV
 
-1. Abra a aplicação.
-2. Seleccione **Criar meu CV agora**.
-3. Preencha os dados pessoais.
-4. Escreva o resumo profissional.
-5. Adicione experiências e formação.
-6. Registe competências, idiomas e secções complementares.
-7. Avance até **Personalização**.
+1. Abra a aplicação e escolha começar vazio, usar o exemplar ou um modelo pronto.
+2. Preencha/reveja uma etapa de cada vez, seguindo o indicador sequencial.
+3. Use **Voltar** e **Próximo** para percorrer dados pessoais, resumo,
+   experiência, formação, competências, idiomas e complementos.
+4. No último passo, avance para **Personalização**.
 
 ### 3.2 Usar o exemplar
 
-Seleccione **Usar exemplo** para carregar dados fictícios de uma profissional de Luanda. Substitua todos os dados antes de exportar ou enviar o documento.
+Seleccione **Usar exemplo** para carregar dados fictícios de uma profissional de Luanda. O exemplar e os modelos prontos mantêm o mesmo fluxo sequencial; reveja os dados etapa a etapa e substitua todos os dados fictícios antes de exportar ou enviar o documento.
 
 ### 3.3 Personalizar
 
@@ -51,10 +50,12 @@ Na etapa de personalização:
 - escolha um dos modelos prontos na página inicial ou inicie um CV em branco;
 - seleccione uma cor;
 - active/desactive secções;
-- active o **Modo ATS** quando a prioridade for simplicidade e leitura automática;
 - leia a revisão antes de exportar.
 
 O modo ATS privilegia uma apresentação visual mais simples, embora alguns modelos mantenham a disposição escolhida. Os modelos prontos definem também uma disposição inicial e dados de demonstração que devem ser substituídos.
+
+As **Opções avançadas** estão recolhidas por defeito. Abra-as apenas se precisar
+do modo ATS, de importar/exportar um backup JSON ou de guardar versões do CV.
 
 ### 3.4 Rever o CV
 
@@ -240,6 +241,7 @@ src/
       resumeVersions.ts
 docs/
   documentacao-projecto.md
+  identidade-visual.md
   guia-estudos-react-para-vue.md
   pesquisa-curriculos-angola-internacional.md
   analise-comparativa-plataformas-cv-2026-09.md
@@ -250,6 +252,9 @@ docs/
 O [guia de estudos React para quem vem de Vue](./guia-estudos-react-para-vue.md)
 explica estes módulos como percurso de aprendizagem e está disponível em
 [PDF](./guia-estudos-react-para-vue.pdf).
+
+As decisões de marca, tipografia, alinhamento, ícones e comportamento mobile/web
+estão descritas em [identidade-visual.md](./identidade-visual.md).
 
 ## 9. Desenvolvimento local
 

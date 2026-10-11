@@ -1,0 +1,11 @@
+@import '@fontsource-variable/manrope';
+@import '@fontsource/dm-serif-display/400.css';
+
+.brand-body {
+  font-family: 'Manrope Variable', Manrope, Arial, sans-serif;
+}
+
+.brand-display {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-weight: 400;
+}

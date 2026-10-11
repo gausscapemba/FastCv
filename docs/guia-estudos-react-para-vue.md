@@ -272,8 +272,9 @@ serve para libertar subscrições/timers, quando existirem.
 
 **Não** use um efeito para calcular algo que pode ser obtido directamente
 durante a renderização. Isso cria estado duplicado, atrasos e risco de
-inconsistência. A decisão `isDirectMode` em `ResumeWizard` é derivada de
-`initialMode`; não precisa de ser guardada em estado.
+inconsistência. Em `ResumeWizard`, `initialMode` determina os dados iniciais
+(vazio, demonstração ou modelo pronto), enquanto todos os modos seguem o mesmo
+fluxo sequencial de edição.
 
 `useEffect` não corresponde exactamente a `watch` nem a `onMounted`: o efeito
 corre depois de React confirmar a renderização e volta a sincronizar quando as

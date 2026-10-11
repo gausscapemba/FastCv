@@ -1,8 +1,12 @@
 import React from 'react';
-import { Zap, Palette, Download, Clock, ShieldCheck, Briefcase, Save, ArrowRight, FileText } from 'lucide-react';
+import {
+  ArrowRight,
+  FileText,
+} from '@phosphor-icons/react';
 import { Button } from '@/app/components/ui/button';
 import type { ResumeStartMode } from '@/app/types/resume';
 import { ResumeTemplateCardPreview } from '@/app/components/ResumeTemplateCardPreview';
+import { BrandMark } from '@/app/components/BrandMark';
 
 interface LandingPageProps {
   onStart: (mode?: ResumeStartMode) => void;
@@ -17,13 +21,12 @@ export function LandingPage({ onStart }: LandingPageProps) {
     { mode: 'template-photo-centered', name: 'Foto central', layout: 'photo-center' },
     { mode: 'template-functional', name: 'CV funcional', layout: 'functional' },
   ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
+    <div className="brand-body min-h-screen bg-[#F7F5EF] text-[#17231E]">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
-          <div className="flex items-center gap-2">
+      <header className="sticky top-0 z-20 border-b border-[#DDDCD3] bg-[#F7F5EF]/95 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               aria-label="Iniciar"
@@ -31,165 +34,125 @@ export function LandingPage({ onStart }: LandingPageProps) {
                 onStart();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="font-bold text-xl text-green-600 ml-4 md:ml-8"
+              className="flex items-center gap-2.5 rounded-sm text-left text-[#174A3B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#27634F]"
             >
-              CVRápido
+              <BrandMark className="h-8 w-8 sm:h-10 sm:w-10" />
+              <span className="text-lg font-extrabold tracking-[-0.06em] sm:text-xl">CV<span className="font-medium">Rápido</span></span>
             </button>
           </div>
-          <nav aria-label="Navegação principal" className="flex items-center gap-4 text-sm font-medium text-gray-700 sm:gap-6">
-            <a href="#ready-templates" className="hover:text-green-700">Modelos</a>
-            <a href="#services" className="hover:text-green-700">Serviços</a>
-            <button type="button" onClick={() => onStart('empty')} className="hidden rounded-md bg-green-700 px-3 py-2 text-white hover:bg-green-800 sm:inline-flex">Criar CV</button>
+          <nav aria-label="Navegação principal" className="flex items-center gap-2 text-sm font-semibold text-[#35443B] sm:gap-7">
+            <a href="#how-it-works-heading" className="hidden transition-colors hover:text-[#174A3B] sm:inline">Como funciona</a>
+            <a href="#ready-templates" className="transition-colors hover:text-[#174A3B]">Modelos</a>
+            <button type="button" onClick={() => onStart('empty')} className="whitespace-nowrap rounded-full bg-[#174A3B] px-3 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#27634F] sm:px-5">Criar CV <ArrowRight className="ml-1 hidden sm:inline-block" size={16} weight="bold" /></button>
           </nav>
         </div>
       </header>
 
       {/* Hero Section */}
-      <main className="mx-auto max-w-7xl px-6 py-24">
-        <div className="text-center space-y-8">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
-            Crie o seu CV profissional
-            <br />
-            <span className="text-green-600">em minutos</span>
-          </h1>
-
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Ferramenta rápida e intuitiva para criar currículos profissionais
-            com pré-visualização em tempo real. O seu CV pronto quando precisar!
-          </p>
-
-          <div className="pt-4 flex flex-col sm:flex-row justify-center gap-4">
-            <Button
-              size="lg"
-              onClick={() => onStart('empty')}
-              className="h-14 px-8 text-lg bg-green-600 hover:bg-green-700"
-            >
-              Criar meu CV agora
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => onStart('demo')}
-              className="h-14 px-8 text-lg"
-            >
-              Usar exemplo
-            </Button>
+      <main className="mx-auto max-w-7xl px-5 pb-20 pt-10 sm:px-6 sm:pt-14">
+        <section className="grid items-center gap-10 lg:min-h-[540px] lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+          <div className="py-5 text-center lg:py-12 lg:text-left">
+            <span className="mb-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#27634F] sm:text-sm">
+              <span className="h-px w-7 bg-[#C96E50]" />
+              Um bom CV abre caminho
+            </span>
+            <h1 className="brand-display mx-auto max-w-[650px] text-[clamp(2.65rem,6vw,4.5rem)] leading-[1.04] tracking-[-0.04em] text-[#17231E] lg:mx-0">
+              A sua próxima oportunidade começa               <span className="inline-block text-[#27634F] underline decoration-[#D8F279] decoration-[7px] underline-offset-[-3px]">no papel.</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-[520px] text-base leading-7 text-[#626A64] sm:text-lg sm:leading-8 lg:mx-0">
+              Organize a sua experiência, escolha uma apresentação que combina consigo e leve o seu currículo para onde a carreira o chamar.
+            </p>
+            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+              <Button
+                size="lg"
+                onClick={() => onStart('empty')}
+                className="h-12 rounded-full bg-[#174A3B] px-7 text-base font-bold text-white shadow-[0_5px_0_#0F352A] transition hover:translate-y-0.5 hover:bg-[#27634F] hover:shadow-[0_3px_0_#0F352A]"
+              >
+                Começar o meu CV
+                <ArrowRight className="ml-2" size={18} weight="bold" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => onStart('demo')}
+                className="h-12 rounded-full border-[#C9CDC4] bg-transparent px-6 text-base font-semibold text-[#26372E] hover:border-[#174A3B] hover:bg-white"
+              >
+                Ver um exemplo
+              </Button>
+            </div>
+            <div className="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#626A64] sm:text-sm lg:justify-start">
+              <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#C96E50]" />Sem conta</span>
+              <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#C96E50]" />Dados no seu dispositivo</span>
+              <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#C96E50]" />PDF pronto a guardar</span>
+            </div>
           </div>
 
-          <section id="ready-templates" className="scroll-mt-24 pt-16 text-left">
-            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">Comece com um modelo pronto</h2>
-                <p className="mt-1 text-gray-600">Escolha um currículo de exemplo e substitua os dados fictícios pelos seus.</p>
+          <div className="relative mx-auto flex min-h-[350px] w-full max-w-[540px] items-center justify-center overflow-hidden rounded-t-[45%] rounded-b-[2rem] bg-[#E5E9DD] px-5 pb-7 pt-10 sm:min-h-[420px] sm:px-8 sm:pt-12 lg:min-h-[490px]">
+            <span aria-hidden="true" className="absolute right-8 top-8 h-16 w-16 rounded-full border border-[#174A3B]/20 sm:right-12 sm:top-10 sm:h-24 sm:w-24" />
+            <span aria-hidden="true" className="absolute bottom-10 left-7 h-2 w-2 rounded-full bg-[#C96E50] sm:left-12" />
+            <div className="relative h-[310px] w-[230px] rotate-[-3deg] overflow-hidden bg-white shadow-[12px_18px_35px_rgba(23,35,30,0.18)] ring-1 ring-black/5 transition-transform duration-500 hover:rotate-0 sm:h-[375px] sm:w-[278px] lg:h-[405px] lg:w-[300px]">
+              <div className="absolute inset-0 origin-top-left scale-[0.676] sm:scale-[0.818] lg:scale-[0.882]">
+                <div className="h-[480px] w-[340px]">
+                  <ResumeTemplateCardPreview layout="classic" />
+                </div>
               </div>
-              <p className="text-sm text-gray-500">Todos os dados são fictícios e editáveis</p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {readyTemplates.map((template) => (
-                <button key={template.mode} type="button" aria-label={`Usar modelo ${template.name}`} onClick={() => onStart(template.mode)} className="group overflow-hidden rounded-lg border border-gray-200 bg-white text-left shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600">
-                  <div className="flex h-[280px] items-start justify-center overflow-hidden bg-gray-100 px-6 pt-4 sm:h-[320px]">
-                    <div className="h-[480px] w-[340px] shrink-0 origin-top scale-[0.72] overflow-hidden rounded-sm bg-white shadow-md ring-1 ring-black/5 sm:scale-[0.82]">
+            <div className="absolute bottom-7 right-3 flex max-w-[195px] items-center gap-2.5 border border-[#DDDCD3] bg-[#F7F5EF] px-3 py-2.5 text-xs font-semibold text-[#26372E] shadow-[4px_5px_0_#174A3B] sm:bottom-10 sm:right-5 sm:max-w-none sm:px-4 sm:text-sm">
+              <span className="flex h-8 w-8 items-center justify-center bg-[#D8F279] text-[#174A3B]"><FileText size={18} weight="duotone" /></span>
+              Feito para contar a sua história
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="how-it-works-heading" className="pt-16">
+          <div className="mb-8 max-w-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#27634F]">O caminho é seu</p>
+            <h2 id="how-it-works-heading" className="brand-display mt-2 text-3xl leading-tight text-[#17231E] sm:text-4xl">Da experiência ao próximo passo.</h2>
+            <p className="mt-3 text-sm leading-6 text-[#626A64] sm:text-base">Um processo simples, sem perder de vista o que torna a sua história profissional única.</p>
+          </div>
+          <ol className="grid border-y border-[#C9CDC4] md:grid-cols-3">
+            {[
+              { number: '01', title: 'Reúna a sua história', description: 'Adicione contactos, experiência, formação e competências.' },
+              { number: '02', title: 'Dê-lhe forma', description: 'Escolha a apresentação e ajuste cor e secções.' },
+              { number: '03', title: 'Leve consigo', description: 'Reveja e descarregue o currículo em PDF.' },
+            ].map(({ number, title, description }, index) => (
+              <li key={number} className={`grid grid-cols-[48px_1fr] gap-x-4 py-5 sm:grid-cols-[56px_1fr] sm:py-7 md:px-5 lg:px-8 ${index < 2 ? 'border-b border-[#C9CDC4] md:border-b-0 md:border-r' : ''} ${index > 0 ? 'md:pl-8' : 'md:pl-0'}`}>
+                <span className="brand-display row-span-2 text-3xl leading-none text-[#C96E50] sm:text-4xl">{number}</span>
+                <h3 className="text-base font-bold text-[#17231E] sm:text-lg">{title}</h3>
+                <p className="mt-1 max-w-sm text-sm leading-6 text-[#626A64]">{description}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section id="ready-templates" className="scroll-mt-24 pt-16 text-left sm:pt-20">
+          <div className="mb-7 flex flex-col gap-3 border-b border-[#C9CDC4] pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#27634F]">Feitos para diferentes percursos</p>
+              <h2 className="brand-display mt-2 text-3xl leading-tight text-[#17231E] sm:text-4xl">Encontre a forma certa.</h2>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-[#626A64] sm:text-base">Escolha uma base, personalize com a sua experiência e transforme-a no seu currículo.</p>
+            </div>
+            <p className="text-xs font-medium text-[#626A64] sm:max-w-[190px] sm:text-right">Os exemplos são fictícios. Todos os dados podem ser editados.</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {readyTemplates.map((template, index) => (
+              <button key={template.mode} type="button" aria-label={`Usar modelo ${template.name}`} onClick={() => onStart(template.mode)} className="group block w-full overflow-hidden border border-[#DDDCD3] bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-[#27634F]/50 hover:shadow-[0_12px_30px_rgba(23,35,30,0.09)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#27634F]">
+                <div className={`relative flex h-[280px] items-start justify-center overflow-hidden px-5 pt-5 sm:h-[310px] ${index % 3 === 1 ? 'bg-[#EAEDE5]' : index % 3 === 2 ? 'bg-[#F0E9DE]' : 'bg-[#E8ECE5]'}`}>
+                  <span className="absolute left-4 top-4 text-[10px] font-bold tracking-[0.16em] text-[#626A64]">CVR · 0{index + 1}</span>
+                  <div className="mt-2 h-[480px] w-[340px] shrink-0 origin-top scale-[0.68] overflow-hidden bg-white shadow-[0_8px_20px_rgba(23,35,30,0.12)] ring-1 ring-black/5 sm:scale-[0.74]">
                       <ResumeTemplateCardPreview layout={template.layout} />
-                    </div>
                   </div>
-                  <div className="flex justify-center p-4">
-                    <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-green-700">Usar modelo <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* Features */}
-          <section id="services" className="scroll-mt-24 pt-16">
-            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div><h2 className="text-2xl font-bold text-gray-900">Nossos serviços</h2><p className="mt-1 text-gray-600">Crie o currículo ou trabalhe sobre um CV já concluído.</p></div>
-            </div>
-            <div className="mb-8 grid gap-4 sm:grid-cols-2">
-              <button type="button" onClick={() => onStart('empty')} className="flex items-center justify-between gap-4 rounded-lg border border-green-200 bg-white p-5 text-left shadow-sm transition hover:border-green-500 hover:shadow-md">
-                <span><strong className="block text-gray-900">Criar um CV</strong><span className="mt-1 block text-sm text-gray-600">Comece em branco ou escolha um modelo pronto.</span></span><FileText className="h-6 w-6 shrink-0 text-green-700" />
+                </div>
+                <div className="flex min-h-12 items-center justify-center px-4 py-2.5">
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[#174A3B]">
+                    Usar o modelo <ArrowRight aria-hidden="true" className="transition group-hover:translate-x-1" size={17} weight="bold" />
+                  </span>
+                </div>
               </button>
-              <button type="button" onClick={() => onStart('analysis')} className="flex items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white p-5 text-left shadow-sm transition hover:border-green-500 hover:shadow-md">
-                <span><strong className="block text-gray-900">Analisar um CV pronto</strong><span className="mt-1 block text-sm text-gray-600">Importe um CV concluído e compare-o com uma vaga.</span></span><Briefcase className="h-6 w-6 shrink-0 text-green-700" />
-              </button>
-            </div>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="space-y-3">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
-                <Zap className="h-6 w-6 text-green-600" />
-              </div>
-
-              <h3 className="font-semibold">Ultra Rápido</h3>
-              <p className="text-sm text-gray-600">
-                Crie o seu CV em poucos minutos com o nosso formulário intuitivo
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
-                <Clock className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="font-semibold">Preview Instantâneo</h3>
-              <p className="text-sm text-gray-600">
-                Visualize as alterações em tempo real enquanto preenche
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
-                <Palette className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="font-semibold">Personalizável</h3>
-              <p className="text-sm text-gray-600">
-                  Escolha entre modelos prontos e ajuste as cores
-                </p>
-            </div>
-
-            <div className="space-y-3">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
-                <Download className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="font-semibold">Download Imediato</h3>
-              <p className="text-sm text-gray-600">
-                Descarregue o seu CV em PDF profissional instantaneamente
-              </p>
-            </div>
+            ))}
           </div>
-          </section>
+        </section>
 
-          <div className="mt-16 rounded-2xl border border-green-100 bg-white/80 p-6 text-left shadow-sm">
-            <div className="mb-6 text-center">
-              <h2 className="text-2xl font-bold text-gray-900">Mais do que um gerador de CV</h2>
-              <p className="mt-2 text-gray-600">Crie, reveja e adapte o seu currículo sem sair da aplicação.</p>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="space-y-3 text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                  <ShieldCheck className="h-6 w-6 text-green-600" />
-                </div>
-                <div><h3 className="font-semibold">Modo ATS</h3><p className="text-sm text-gray-600">Estrutura simples e texto pesquisável.</p></div>
-              </div>
-              <div className="space-y-3 text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                  <Zap className="h-6 w-6 text-green-600" />
-                </div>
-                <div><h3 className="font-semibold">Revisão de CV pronto</h3><p className="text-sm text-gray-600">Verificações de consistência como serviço separado.</p></div>
-              </div>
-              <div className="space-y-3 text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                  <Briefcase className="h-6 w-6 text-green-600" />
-                </div>
-                <div><h3 className="font-semibold">Adaptação à vaga</h3><p className="text-sm text-gray-600">Compare o CV com uma descrição de vaga.</p></div>
-              </div>
-              <div className="space-y-3 text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                  <Save className="h-6 w-6 text-green-600" />
-                </div>
-                <div><h3 className="font-semibold">Versões e backups</h3><p className="text-sm text-gray-600">Guarde versões e exporte backups JSON.</p></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </main>
     </div>
   );

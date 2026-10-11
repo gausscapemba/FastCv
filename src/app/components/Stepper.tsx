@@ -17,7 +17,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
     <div className="w-full mb-6 sm:mb-8">
       <div className="flex items-start justify-between gap-1 sm:gap-2">
         {steps.map((step, index) => (
-          <div key={step.id} className="flex items-center flex-1 min-w-0">
+          <div key={step.id} className="flex items-center flex-1 min-w-0" aria-current={currentStep === step.id ? 'step' : undefined}>
             <div className="flex flex-col items-center flex-1 min-w-0">
               <div
                 className={`
@@ -25,9 +25,9 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                   transition-colors duration-200 shrink-0
                   ${
                     currentStep > step.id
-                      ? 'bg-green-600 text-white'
+                      ? 'bg-[#174A3B] text-white'
                       : currentStep === step.id
-                      ? 'bg-green-600 text-white'
+                        ? 'scale-110 bg-[#174A3B] text-white ring-4 ring-[#D8F279] ring-offset-2 ring-offset-[#F7F5EF]'
                       : 'bg-gray-200 text-gray-400'
                   }
                 `}
@@ -41,7 +41,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
               <div className="mt-2 hidden text-center md:block">
                 <p
                   className={`text-[9px] sm:text-[11px] font-medium truncate ${
-                    currentStep >= step.id ? 'text-gray-900' : 'text-gray-400'
+                    currentStep === step.id ? 'font-bold text-[#174A3B]' : currentStep > step.id ? 'text-[#17231E]' : 'text-[#8A918B]'
                   }`}
                   title={step.title}
                 >
@@ -53,7 +53,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
               <div
                 className={`
                   flex-1 h-1 mx-1 sm:mx-2 transition-colors duration-200
-                  ${currentStep > step.id ? 'bg-green-600' : 'bg-gray-200'}
+                  ${currentStep > step.id ? 'bg-[#174A3B]' : 'bg-[#DDDCD3]'}
                 `}
               />
             )}

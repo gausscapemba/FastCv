@@ -8,15 +8,15 @@ import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
 import { createResumeBackup, parseResumeBackup } from '@/app/utils/resumeStorage';
 import { loadResumeVersions, saveResumeVersions, type ResumeVersion } from '@/app/utils/resumeVersions';
-import { Download, Upload, ShieldCheck, Copy, Trash2 } from 'lucide-react';
+import { Download, Upload, ShieldCheck, Copy, Trash2, ChevronDown } from 'lucide-react';
 
 const colors = [
-  { name: 'Azul', value: '#2563eb' },
-  { name: 'Verde', value: '#059669' },
-  { name: 'Roxo', value: '#7c3aed' },
-  { name: 'Vermelho', value: '#dc2626' },
-  { name: 'Laranja', value: '#ea580c' },
-  { name: 'Cinza', value: '#475569' },
+  { name: 'Floresta', value: '#174A3B' },
+  { name: 'Folha', value: '#27634F' },
+  { name: 'Barro', value: '#C96E50' },
+  { name: 'Tinta', value: '#17231E' },
+  { name: 'Azul', value: '#2563EB' },
+  { name: 'Pedra', value: '#626A64' },
 ];
 
 export function CustomizationForm() {
@@ -79,77 +79,6 @@ export function CustomizationForm() {
         <p className="text-gray-600">Personalize a aparência do seu currículo</p>
       </div>
 
-      <div className="space-y-4 rounded-lg border bg-white p-4">
-        <div className="flex items-start gap-3">
-          <ShieldCheck className="mt-0.5 h-5 w-5 text-green-700" />
-          <div>
-            <h4 className="font-semibold">Modo ATS</h4>
-            <p className="mt-1 text-sm text-gray-600">
-              Usa uma apresentação mais simples, com texto real e menos elementos decorativos.
-              Isto melhora a legibilidade, mas não garante aceitação por nenhum ATS.
-            </p>
-          </div>
-          <Switch
-            className="ml-auto"
-            checked={settings.atsMode}
-            onCheckedChange={(checked) => updateSettings({ atsMode: checked })}
-            aria-label="Activar modo ATS"
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="outline" size="sm" onClick={exportBackup}>
-          <Download /> Exportar backup JSON
-        </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
-          <Upload /> Importar backup JSON
-        </Button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="application/json,.json"
-          className="hidden"
-          onChange={async (event) => {
-            const file = event.target.files?.[0];
-            if (!file) return;
-            try {
-              await importBackup(file);
-            } catch (error) {
-              window.alert(error instanceof Error ? error.message : 'Não foi possível importar o backup.');
-            } finally {
-              event.target.value = '';
-            }
-          }}
-        />
-      </div>
-
-      <div className="space-y-4 rounded-lg border bg-white p-4">
-        <div className="flex items-start gap-3">
-          <Copy className="mt-0.5 h-5 w-5 text-green-700" />
-          <div>
-            <h4 className="font-semibold">Versões do CV</h4>
-            <p className="mt-1 text-sm text-gray-600">Guarde cópias para candidaturas diferentes sem perder o CV principal.</p>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Input value={versionName} onChange={(event) => setVersionName(event.target.value)} placeholder="Ex.: Candidatura — Product Designer" />
-          <Button type="button" size="sm" onClick={createVersion} disabled={!versionName.trim()}>Guardar versão</Button>
-        </div>
-        {versions.length > 0 && (
-          <ul className="space-y-2">
-            {versions.map((version) => (
-              <li key={version.id} className="flex items-center justify-between gap-3 rounded-md border px-3 py-2 text-sm">
-                <button type="button" className="text-left font-medium hover:underline" onClick={() => restoreVersion(version)}>{version.name}</button>
-                <button type="button" aria-label={`Remover ${version.name}`} className="text-red-600 hover:underline" onClick={() => removeVersion(version.id)}>
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
       {/* Color Selection */}
       <div className="space-y-4">
         <Label>Cor Principal</Label>
@@ -162,7 +91,7 @@ export function CustomizationForm() {
                 h-12 rounded-lg transition-all
                 ${
                   settings.primaryColor === color.value
-                    ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
+                    ? 'ring-2 ring-offset-2 ring-[#174A3B] scale-110'
                     : 'hover:scale-105'
                 }
               `}
@@ -205,6 +134,86 @@ export function CustomizationForm() {
           ))}
         </div>
       </div>
+
+      <details className="group rounded-lg border border-[#DDDCD3] bg-white">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 font-semibold text-[#174A3B] marker:content-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#27634F]">
+          <span>
+            Opções avançadas
+            <span className="mt-1 block text-sm font-normal text-[#626A64]">Modo ATS, backups e versões do CV</span>
+          </span>
+          <ChevronDown aria-hidden="true" className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="space-y-4 border-t border-[#DDDCD3] p-4">
+          <div className="flex items-start gap-3 rounded-lg border border-[#DDDCD3] p-4">
+            <ShieldCheck className="mt-0.5 h-5 w-5 text-[#174A3B]" />
+            <div>
+              <h4 className="font-semibold">Modo ATS</h4>
+              <p className="mt-1 text-sm text-gray-600">
+                Usa uma apresentação mais simples, com texto real e menos elementos decorativos.
+                Isto melhora a legibilidade, mas não garante aceitação por nenhum ATS.
+              </p>
+            </div>
+            <Switch
+              className="ml-auto"
+              checked={settings.atsMode}
+              onCheckedChange={(checked) => updateSettings({ atsMode: checked })}
+              aria-label="Activar modo ATS"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" variant="outline" size="sm" onClick={exportBackup}>
+              <Download /> Exportar backup JSON
+            </Button>
+            <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
+              <Upload /> Importar backup JSON
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json,.json"
+              className="hidden"
+              onChange={async (event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                try {
+                  await importBackup(file);
+                } catch (error) {
+                  window.alert(error instanceof Error ? error.message : 'Não foi possível importar o backup.');
+                } finally {
+                  event.target.value = '';
+                }
+              }}
+            />
+          </div>
+
+          <div className="space-y-4 rounded-lg border border-[#DDDCD3] p-4">
+            <div className="flex items-start gap-3">
+              <Copy className="mt-0.5 h-5 w-5 text-[#174A3B]" />
+              <div>
+                <h4 className="font-semibold">Versões do CV</h4>
+                <p className="mt-1 text-sm text-gray-600">Guarde cópias para candidaturas diferentes sem perder o CV principal.</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Input value={versionName} onChange={(event) => setVersionName(event.target.value)} placeholder="Ex.: Candidatura — Product Designer" />
+              <Button type="button" size="sm" onClick={createVersion} disabled={!versionName.trim()}>Guardar versão</Button>
+            </div>
+            {versions.length > 0 && (
+              <ul className="space-y-2">
+                {versions.map((version) => (
+                  <li key={version.id} className="flex items-center justify-between gap-3 rounded-md border px-3 py-2 text-sm">
+                    <button type="button" className="text-left font-medium hover:underline" onClick={() => restoreVersion(version)}>{version.name}</button>
+                    <button type="button" aria-label={`Remover ${version.name}`} className="text-red-600 hover:underline" onClick={() => removeVersion(version.id)}>
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </details>
     </div>
   );
 }

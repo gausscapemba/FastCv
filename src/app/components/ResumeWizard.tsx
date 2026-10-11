@@ -5,6 +5,7 @@ import { generatePdfBlob } from '@/app/utils/resumePdf';
 
 import { Stepper, Step } from '@/app/components/Stepper';
 import { ResumePreview } from '@/app/components/ResumePreview';
+import { BrandMark } from '@/app/components/BrandMark';
 
 import { PersonalDataForm } from '@/app/components/forms/PersonalDataForm';
 import { SummaryForm } from '@/app/components/forms/SummaryForm';
@@ -18,7 +19,7 @@ import { CustomizationForm } from '@/app/components/forms/CustomizationForm';
 import { Button } from '@/app/components/ui/button';
 import { ScrollArea } from '@/app/components/ui/scroll-area';
 
-import { ArrowLeft, ArrowRight, Download, UserRound, AlignLeft, BriefcaseBusiness, GraduationCap, Wrench, Languages, ListChecks, Palette } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import type { ReadyTemplateId, ResumeStartMode } from '@/app/types/resume';
 
 const steps: Step[] = [
@@ -41,8 +42,6 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
   const [showCustomization, setShowCustomization] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const { resumeData, settings, loadDemoData, loadReadyTemplate, resetResumeData } = useResume();
-  const isDirectMode = initialMode.startsWith('template-');
-
   React.useEffect(() => {
     if (initialMode === 'demo') {
       loadDemoData();
@@ -119,9 +118,9 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
 
   /** ---------------- JSX ---------------- */
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="brand-body min-h-screen bg-[#F7F5EF] text-[#17231E]">
       {/* HEADER */}
-      <header className="bg-white border-b sticky top-0 z-10">
+      <header className="sticky top-0 z-10 border-b border-[#DDDCD3] bg-[#F7F5EF]/95 backdrop-blur-sm">
         <div className="mx-auto max-w-[1240px] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-3">
           <button
             type="button"
@@ -130,41 +129,21 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
               window.scrollTo({ top: 0, behavior: 'smooth' });
               onBack();
             }}
-            className="font-bold text-lg sm:text-xl text-green-600 ml-2 sm:ml-4 md:ml-8"
+            className="ml-2 flex items-center gap-2 text-lg font-bold text-[#174A3B] sm:ml-4 sm:text-xl md:ml-8"
           >
-            CVRápido
+            <BrandMark className="h-8 w-8" />CVRápido
           </button>
         </div>
       </header>
 
       {/* CONTEÚDO */}
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6 py-6 sm:py-8">
-        {!isDirectMode && !showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
-        {(initialMode === 'demo' || isDirectMode) && (isDirectMode || currentStep === 0) && !showCustomization && (
+        {!showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
+        {(initialMode === 'demo' || initialMode.startsWith('template-')) && currentStep === 0 && !showCustomization && (
           <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
             <strong>Modelo de demonstração:</strong> estes dados são fictícios.
             Edite os campos directamente e substitua-os pelos seus dados antes de exportar.
           </div>
-        )}
-        {isDirectMode && (
-          <nav aria-label="Navegação do currículo" className="sticky top-[57px] z-[9] mb-6 -mx-4 overflow-x-auto border-y bg-white px-4 shadow-sm sm:top-[65px] sm:mx-0 sm:rounded-md sm:border">
-            <div className="mx-auto flex w-max min-w-full items-center gap-1 py-2 sm:justify-center">
-              {[
-                { id: 'personal-data', label: 'Dados', Icon: UserRound },
-                { id: 'summary', label: 'Resumo', Icon: AlignLeft },
-                { id: 'experience', label: 'Experiência', Icon: BriefcaseBusiness },
-                { id: 'education', label: 'Formação', Icon: GraduationCap },
-                { id: 'skills', label: 'Competências', Icon: Wrench },
-                { id: 'languages', label: 'Idiomas', Icon: Languages },
-                { id: 'extras', label: 'Complementos', Icon: ListChecks },
-                { id: 'customization', label: 'Aparência', Icon: Palette },
-              ].map(({ id, label, Icon }) => (
-                <a key={id} href={`#${id}`} className="flex shrink-0 items-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium text-gray-600 hover:bg-green-50 hover:text-green-800 sm:text-sm">
-                  <Icon className="h-4 w-4" />{label}
-                </a>
-              ))}
-            </div>
-          </nav>
         )}
         {validationErrors.length > 0 && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -174,10 +153,10 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
           </div>
         )}
 
-        {(showCustomization || isDirectMode) && (
+        {showCustomization && (
           <div className="mb-4 flex justify-end gap-2 xl:hidden">
             <Button variant="outline" size="sm" onClick={() => resetResumeData()}>Limpar</Button>
-            <Button size="sm" onClick={handleExportPDF} className="bg-green-600 hover:bg-green-700">
+            <Button size="sm" onClick={handleExportPDF} className="bg-[#174A3B] hover:bg-[#27634F]">
               <Download className="mr-2 h-4 w-4" /> Exportar PDF
             </Button>
           </div>
@@ -185,25 +164,12 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
 
         <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] gap-5 xl:gap-6">
           <div className="min-w-0">
-            {isDirectMode ? (
-              <div className="space-y-8">
-                <section id="personal-data" className="scroll-mt-36"><PersonalDataForm /></section>
-                <section id="summary" className="scroll-mt-36"><SummaryForm /></section>
-                <section id="experience" className="scroll-mt-36"><ExperienceForm /></section>
-                <section id="education" className="scroll-mt-36"><EducationForm /></section>
-                <section id="skills" className="scroll-mt-36"><SkillsForm /></section>
-                <section id="languages" className="scroll-mt-36"><LanguagesForm /></section>
-                <section id="extras" className="scroll-mt-36"><AdditionalSectionsForm /></section>
-                <section id="customization" className="scroll-mt-36"><CustomizationForm /></section>
-              </div>
-            ) : (
-              <>
-                <ScrollArea className="h-auto max-h-none xl:h-[calc(100vh-250px)] pr-0 xl:pr-3">{renderForm()}</ScrollArea>
-                <div className="flex gap-2 pt-4 border-t sm:justify-end">
+            <ScrollArea className="h-auto max-h-none xl:h-[calc(100vh-250px)] pr-0 xl:pr-3">{renderForm()}</ScrollArea>
+            <div className="flex gap-2 pt-4 border-t sm:justify-end">
               <Button
                 variant="outline"
                 onClick={handleBack}
-                className="flex-1 min-h-8 rounded-md border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 px-3 py-1.5 sm:flex-none sm:min-h-9"
+                className="flex-1 min-h-8 rounded-md border-[#DDDCD3] bg-white text-[#35443B] shadow-sm hover:bg-[#F0EFE8] px-3 py-1.5 sm:flex-none sm:min-h-9"
               >
                 <ArrowLeft className="h-3.5 w-3.5 sm:mr-1" />
                 <span className="text-[11px] sm:text-xs">Voltar</span>
@@ -211,36 +177,40 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
 
               <Button
                 onClick={handleNext}
-                className="flex-1 min-h-8 rounded-md bg-green-600 hover:bg-green-700 shadow-sm px-3 py-1.5 sm:flex-none sm:min-h-9"
+                className="flex-1 min-h-8 rounded-md bg-[#174A3B] hover:bg-[#27634F] shadow-sm px-3 py-1.5 sm:flex-none sm:min-h-9"
               >
                 <span className="text-[11px] sm:text-xs">
                   {showCustomization ? 'Concluído' : currentStep === steps.length - 1 ? 'Personalizar' : 'Próximo'}
                 </span>
                 {!showCustomization && <ArrowRight className="h-3.5 w-3.5 sm:ml-1" />}
               </Button>
-                </div>
-              </>
-            )}
+            </div>
           </div>
 
           {/* PREVIEW VISUAL */}
           <div className="hidden xl:block">
             <div className="sticky top-24">
-              {(showCustomization || isDirectMode) && (
+              {showCustomization && (
                 <div className="mb-2 flex items-center justify-between px-1">
                   <span className="text-xs font-medium text-gray-500">Pré-visualização do CV</span>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={() => resetResumeData()}>Limpar</Button>
-                    <Button size="sm" onClick={handleExportPDF} className="bg-green-600 hover:bg-green-700">
+                    <Button size="sm" onClick={handleExportPDF} className="bg-[#174A3B] hover:bg-[#27634F]">
                       <Download className="mr-1.5 h-4 w-4" /> PDF
                     </Button>
                   </div>
                 </div>
               )}
+              {!showCustomization && (
+                <div className="mb-2 flex items-center justify-between px-1 text-xs">
+                  <span className="font-medium text-[#626A64]">Pré-visualização do CV</span>
+                  <span className="rounded-full bg-[#D8F279] px-2.5 py-1 font-bold text-[#174A3B]">A editar: {steps[currentStep].title}</span>
+                </div>
+              )}
               <div className="mx-auto w-[360px] overflow-hidden rounded-md border border-gray-200 bg-gray-100 p-1 shadow-sm">
                 <div className="h-[510px] w-full overflow-hidden bg-white">
                   <div style={{ width: '800px', transform: 'scale(0.45)', transformOrigin: 'top left' }}>
-                    <ResumePreview data={resumeData} settings={settings} />
+                    <ResumePreview data={resumeData} settings={settings} editingStep={showCustomization ? undefined : currentStep} />
                   </div>
                 </div>
               </div>
