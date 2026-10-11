@@ -240,11 +240,16 @@ src/
       resumeVersions.ts
 docs/
   documentacao-projecto.md
+  guia-estudos-react-para-vue.md
   pesquisa-curriculos-angola-internacional.md
   analise-comparativa-plataformas-cv-2026-09.md
 ```
 
 `App.tsx` alterna entre a página inicial, o editor guiado e a ferramenta de análise. `ResumeContext.tsx` é a fonte do estado partilhado; o preview de ecrã e o documento PDF são renderizados separadamente.
+
+O [guia de estudos React para quem vem de Vue](./guia-estudos-react-para-vue.md)
+explica estes módulos como percurso de aprendizagem e está disponível em
+[PDF](./guia-estudos-react-para-vue.pdf).
 
 ## 9. Desenvolvimento local
 

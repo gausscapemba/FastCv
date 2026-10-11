@@ -141,6 +141,11 @@ A documentação actualizada do produto, manual de uso, casos de uso, arquitectu
 e informações técnicas está disponível em
 [docs/documentacao-projecto.md](./docs/documentacao-projecto.md).
 
+Para aprender React a partir de experiência com Vue, consulte o
+[guia de estudos React para Vue](./docs/guia-estudos-react-para-vue.md), que
+usa os componentes reais deste projecto como exemplos. Está disponível também
+em [PDF para leitura offline](./docs/guia-estudos-react-para-vue.pdf).
+
 ## Melhorias recentes
 
 - adição de exemplo de CV pré-carregado

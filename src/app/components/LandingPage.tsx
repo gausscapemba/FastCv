@@ -86,14 +86,13 @@ export function LandingPage({ onStart }: LandingPageProps) {
             </div>
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {readyTemplates.map((template) => (
-                <button key={template.mode} type="button" onClick={() => onStart(template.mode)} className="group overflow-hidden rounded-lg border border-gray-200 bg-white text-left shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600">
+                <button key={template.mode} type="button" aria-label={`Usar modelo ${template.name}`} onClick={() => onStart(template.mode)} className="group overflow-hidden rounded-lg border border-gray-200 bg-white text-left shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600">
                   <div className="flex h-[280px] items-start justify-center overflow-hidden bg-gray-100 px-6 pt-4 sm:h-[320px]">
                     <div className="h-[480px] w-[340px] shrink-0 origin-top scale-[0.72] overflow-hidden rounded-sm bg-white shadow-md ring-1 ring-black/5 sm:scale-[0.82]">
                       <ResumeTemplateCardPreview layout={template.layout} />
                     </div>
                   </div>
-                  <div className="flex items-center justify-between gap-3 p-4">
-                    <h3 className="font-semibold text-gray-900">{template.name}</h3>
+                  <div className="flex justify-center p-4">
                     <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-green-700">Usar modelo <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
                   </div>
                 </button>
@@ -104,7 +103,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
           {/* Features */}
           <section id="services" className="scroll-mt-24 pt-16">
             <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div><h2 className="text-2xl font-bold text-gray-900">Serviços</h2><p className="mt-1 text-gray-600">Crie o currículo ou trabalhe sobre um CV já concluído.</p></div>
+              <div><h2 className="text-2xl font-bold text-gray-900">Nossos serviços</h2><p className="mt-1 text-gray-600">Crie o currículo ou trabalhe sobre um CV já concluído.</p></div>
             </div>
             <div className="mb-8 grid gap-4 sm:grid-cols-2">
               <button type="button" onClick={() => onStart('empty')} className="flex items-center justify-between gap-4 rounded-lg border border-green-200 bg-white p-5 text-left shadow-sm transition hover:border-green-500 hover:shadow-md">
