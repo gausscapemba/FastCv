@@ -141,8 +141,8 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
         {!showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
         {(initialMode === 'demo' || initialMode.startsWith('template-')) && currentStep === 0 && !showCustomization && (
           <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            <strong>Modelo de demonstração:</strong> estes dados são fictícios.
-            Edite os campos directamente e substitua-os pelos seus dados antes de exportar.
+            <strong>Este exemplo tem dados fictícios.</strong> Use-o para perceber
+            como o currículo pode ficar; pode substituir tudo pelos seus dados.
           </div>
         )}
         {validationErrors.length > 0 && (

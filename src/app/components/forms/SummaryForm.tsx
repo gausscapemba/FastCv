@@ -11,7 +11,7 @@ export function SummaryForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Resumo Profissional</h3>
-        <p className="text-gray-600">Descreva brevemente a sua experiência e os seus objectivos</p>
+        <p className="text-gray-600">Conte um pouco sobre si, o que sabe fazer e o próximo passo que procura.</p>
       </div>
 
       <div>
@@ -20,11 +20,11 @@ export function SummaryForm() {
           id="summary"
           value={summary}
           onChange={(e) => updateSummary(e.target.value)}
-          placeholder="Profissional com X anos de experiência em..."
+          placeholder="Ex.: Tenho formação em... e interesse em..."
           className="mt-1 min-h-[200px]"
         />
         <p className="text-sm text-gray-500 mt-2">
-          Dica: Foque em suas principais conquistas e habilidades relevantes
+          Se ainda não tem experiência formal, pode começar pela formação, por projectos ou por aquilo que gostaria de aprender.
         </p>
       </div>
     </div>

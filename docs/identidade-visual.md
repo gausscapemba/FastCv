@@ -16,6 +16,19 @@ O desenho da marca é próprio da aplicação e não deve ser substituído por u
 ícone de biblioteca. A marca pode aparecer junto ao wordmark **CVRápido**;
 outros ícones da interface usam a biblioteca definida abaixo.
 
+## Tom de voz
+
+- Receber a pessoa com calma e orientar uma acção de cada vez; não apresentar a
+  procura de emprego como falha pessoal.
+- Reconhecer percursos diferentes: estudos, projectos, voluntariado, trabalho
+  independente e experiência formal podem trazer competências relevantes.
+- Dar sugestões concretas e encorajadoras, sem prometer emprego, contratação
+  ou resultados que o produto não controla.
+- Usar linguagem simples, respeitosa e consistente. Explicar o que fazer e
+  permitir avançar sem constranger quem ainda não tem informação para uma etapa.
+- Manter a criação do currículo como foco principal; funcionalidades avançadas
+  aparecem apenas quando forem relevantes.
+
 ## Paleta
 
 | Token | Valor | Uso |

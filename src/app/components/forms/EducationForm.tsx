@@ -66,7 +66,7 @@ export function EducationForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Formação Acadêmica</h3>
-        <p className="text-gray-600">Adicione a sua formação e certificações</p>
+        <p className="text-gray-600">Inclua os seus estudos, cursos ou formação profissional — mesmo que ainda estejam em andamento.</p>
       </div>
 
       {/* Existing education */}

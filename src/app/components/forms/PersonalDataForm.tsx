@@ -42,7 +42,7 @@ export function PersonalDataForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Dados Pessoais</h3>
-        <p className="text-gray-600">Comece com suas informações básicas</p>
+        <p className="text-gray-600">Vamos começar pelo essencial: como quer ser contactado e apresentado.</p>
       </div>
 
       <div className="space-y-4">

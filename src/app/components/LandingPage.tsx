@@ -54,13 +54,13 @@ export function LandingPage({ onStart }: LandingPageProps) {
           <div className="py-5 text-center lg:py-12 lg:text-left">
             <span className="mb-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#27634F] sm:text-sm">
               <span className="h-px w-7 bg-[#C96E50]" />
-              Um bom CV abre caminho
+              Um passo de cada vez
             </span>
             <h1 className="brand-display mx-auto max-w-[650px] text-[clamp(2.65rem,6vw,4.5rem)] leading-[1.04] tracking-[-0.04em] text-[#17231E] lg:mx-0">
-              A sua próxima oportunidade começa               <span className="inline-block text-[#27634F] underline decoration-[#D8F279] decoration-[7px] underline-offset-[-3px]">no papel.</span>
+              O seu percurso merece ser <span className="inline-block text-[#27634F] underline decoration-[#D8F279] decoration-[7px] underline-offset-[-3px]">bem apresentado.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-[520px] text-base leading-7 text-[#626A64] sm:text-lg sm:leading-8 lg:mx-0">
-              Organize a sua experiência, escolha uma apresentação que combina consigo e leve o seu currículo para onde a carreira o chamar.
+              Não precisa de ter tudo preparado. Vamos organizar a sua experiência, formação e competências num currículo claro, um passo de cada vez.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
               <Button
@@ -112,7 +112,7 @@ export function LandingPage({ onStart }: LandingPageProps) {
           </div>
           <ol className="grid border-y border-[#C9CDC4] md:grid-cols-3">
             {[
-              { number: '01', title: 'Reúna a sua história', description: 'Adicione contactos, experiência, formação e competências.' },
+              { number: '01', title: 'Reúna a sua história', description: 'Formação, projectos, trabalho e competências: cada percurso conta.' },
               { number: '02', title: 'Dê-lhe forma', description: 'Escolha a apresentação e ajuste cor e secções.' },
               { number: '03', title: 'Leve consigo', description: 'Reveja e descarregue o currículo em PDF.' },
             ].map(({ number, title, description }, index) => (

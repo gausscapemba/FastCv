@@ -66,7 +66,7 @@ export function ExperienceForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Experiência Profissional</h3>
-        <p className="text-gray-600">Adicione suas experiências de trabalho</p>
+        <p className="text-gray-600">Inclua empregos, estágios, trabalhos independentes ou voluntariado. Se ainda não teve experiência, pode avançar.</p>
       </div>
 
       {/* Existing experiences */}

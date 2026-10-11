@@ -33,7 +33,7 @@ export function SkillsForm() {
     <div className="space-y-6">
       <div>
         <h3 className="text-2xl font-semibold mb-2">Competências</h3>
-        <p className="text-gray-600">Adicione suas principais habilidades técnicas e comportamentais</p>
+        <p className="text-gray-600">Pense no que sabe fazer: ferramentas, tarefas e formas de trabalhar com outras pessoas.</p>
       </div>
 
       {/* Existing skills */}
