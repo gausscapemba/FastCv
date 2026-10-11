@@ -1,7 +1,7 @@
 # CVRápido — documentação do projecto
 
-**Versão:** 1.0  
-**Data:** 24 de Setembro de 2026  
+**Versão:** 1.1
+**Data:** 11 de Outubro de 2026
 **Aplicação publicada:** https://fastcv-kohl.vercel.app/
 
 ## 1. Finalidade
@@ -12,11 +12,11 @@ O produto não promete aprovação automática por ATS. O modo ATS e a revisão 
 
 ## 2. Funcionalidades actuais
 
-- criação de CV vazio ou carregamento de CV exemplar;
+- criação de CV vazio, carregamento de CV exemplar ou escolha de um modelo pronto;
 - dados pessoais, resumo, experiência, formação, competências e idiomas;
 - certificações, projectos e cursos complementares;
-- modelos Europass, Clássico e Moderno;
-- cores e controlo das secções visíveis;
+- seis modelos prontos: CV essencial, Experiência profissional, Tecnologia e criatividade, Foto lateral, Foto central e CV funcional;
+- personalização da cor principal e controlo das secções visíveis;
 - preview responsivo;
 - PDF A4 pesquisável e seleccionável;
 - modo ATS simplificado;
@@ -26,7 +26,7 @@ O produto não promete aprovação automática por ATS. O modo ATS e a revisão 
 - versões nomeadas guardadas localmente;
 - análise lexical de uma descrição de vaga;
 - cópia de uma versão para uma candidatura específica;
-- deploy automático através de GitHub e Vercel.
+- aplicação publicada na Vercel.
 
 ## 3. Manual de uso
 
@@ -48,11 +48,13 @@ Seleccione **Usar exemplo** para carregar dados fictícios de uma profissional d
 
 Na etapa de personalização:
 
-- escolha Europass, Clássico ou Moderno;
+- escolha um dos modelos prontos na página inicial ou inicie um CV em branco;
 - seleccione uma cor;
 - active/desactive secções;
 - active o **Modo ATS** quando a prioridade for simplicidade e leitura automática;
 - leia a revisão antes de exportar.
+
+O modo ATS privilegia uma apresentação visual mais simples, embora alguns modelos mantenham a disposição escolhida. Os modelos prontos definem também uma disposição inicial e dados de demonstração que devem ser substituídos.
 
 ### 3.4 Rever o CV
 
@@ -102,7 +104,25 @@ Seleccione **Exportar PDF**. O resultado é um PDF A4 com texto real. Em telemó
 - exportação DOCX nesta versão;
 - análise semântica avançada ou inteligência artificial externa.
 
-## 5. Arquitectura técnica
+## 5. Dados e privacidade
+
+O CV é mantido no estado da aplicação e guardado automaticamente no `localStorage` do navegador. As versões do currículo também são guardadas localmente. O projecto não implementa uma API/backend para receber ou sincronizar o conteúdo do CV.
+
+Limpar os dados do navegador pode apagar o CV e as versões guardadas. Para transportar ou preservar uma cópia, exporte o backup JSON e guarde-o num local seguro: contém dados pessoais e não é protegido por palavra-passe.
+
+O modelo de dados principal é:
+
+| Tipo | Conteúdo |
+|---|---|
+| `PersonalData` | Nome, profissão, email, telefone, endereço, LinkedIn, website e fotografia opcional |
+| `Experience` | Cargo, empresa, localização, datas, situação actual e descrição |
+| `Education` | Grau/curso, instituição, localização, datas, situação actual e descrição |
+| `ResumeData` | Dados pessoais, resumo, experiências, formação, competências, idiomas, certificações, projectos e cursos |
+| `ResumeSettings` | Modelo, disposição, cor, modo ATS e visibilidade das secções |
+
+O formato dos tipos está definido em [`src/app/types/resume.ts`](../src/app/types/resume.ts).
+
+## 6. Arquitectura técnica
 
 ```text
 React 18 + TypeScript
@@ -110,30 +130,33 @@ React 18 + TypeScript
         +-- App.tsx
         |     +-- LandingPage
         |     +-- ResumeWizard
+        |     +-- ResumeAnalysisForm
         |
         +-- ResumeContext
         |     +-- ResumeData
         |     +-- ResumeSettings
-        |     +-- operações CRUD
+        |     +-- actualização/importação de dados e definições
         |
-        +-- Forms
+        +-- Formulários
         |     +-- dados pessoais
+        |     +-- resumo
         |     +-- experiência
         |     +-- formação
+        |     +-- competências e idiomas
         |     +-- complementos
         |     +-- personalização
         |
         +-- Preview
         |     +-- ResumePreview
-        |     +-- modelos e cores
+        |     +-- modelos e cores para ecrã
         |
-        +-- Utils
+        +-- Utilitários
               +-- resumePdf (@react-pdf/renderer)
-              +-- resumeReview
-              +-- resumeStorage
-              +-- resumeVersions
-              +-- jobMatch
-              +-- resumeDate
+              +-- resumeReview (revisão local)
+              +-- resumeStorage (localStorage e backup JSON)
+              +-- resumeVersions (versões locais)
+              +-- jobMatch (comparação lexical com vaga)
+              +-- resumeDate (formatação de datas)
 ```
 
 ### Camadas
@@ -142,7 +165,7 @@ React 18 + TypeScript
 - **Estado:** `ResumeContext` centraliza CV, preferências e operações.
 - **Domínio local:** `resumeReview`, `jobMatch`, `resumeStorage` e `resumeVersions`.
 - **Renderização:** `ResumePreview` para ecrã e `ResumePdfDocument` para PDF.
-- **Infraestrutura:** Vite para build, GitHub para versionamento e Vercel para deploy.
+- **Infraestrutura:** Vite para desenvolvimento/build; o endereço publicado está alojado na Vercel.
 
 ### Fluxo de dados
 
@@ -155,7 +178,7 @@ Formulário
    -> PDF ou backup JSON
 ```
 
-## 6. Diagrama de casos de uso
+## 7. Diagrama de casos de uso
 
 ```mermaid
 flowchart LR
@@ -189,7 +212,7 @@ flowchart LR
 | UC-08 | Fazer backup | JSON exportado |
 | UC-09 | Exportar PDF | Documento A4 pesquisável |
 
-## 7. Estrutura de pastas
+## 8. Estrutura de pastas
 
 ```text
 src/
@@ -199,6 +222,7 @@ src/
       LandingPage.tsx
       ResumeWizard.tsx
       ResumePreview.tsx
+      ResumeTemplateCardPreview.tsx
       forms/
       ui/
     context/
@@ -216,14 +240,15 @@ src/
       resumeVersions.ts
 docs/
   documentacao-projecto.md
-  plano-e-autoavaliacao.md
   pesquisa-curriculos-angola-internacional.md
   analise-comparativa-plataformas-cv-2026-09.md
 ```
 
-## 8. Desenvolvimento local
+`App.tsx` alterna entre a página inicial, o editor guiado e a ferramenta de análise. `ResumeContext.tsx` é a fonte do estado partilhado; o preview de ecrã e o documento PDF são renderizados separadamente.
 
-Requisitos: Node.js 18+, npm e Git opcional.
+## 9. Desenvolvimento local
+
+Requisitos: Node.js 18 ou superior e npm. Git é opcional para executar localmente.
 
 ```bash
 npm install
@@ -231,9 +256,9 @@ npm run dev -- --host 0.0.0.0
 npm run build
 ```
 
-O build de produção é criado em `dist/`.
+O servidor local apresenta o endereço indicado pelo Vite, normalmente `http://localhost:5173/`. O build de produção é criado em `dist/`. O projecto usa React 18, TypeScript, Vite, Tailwind CSS e `@react-pdf/renderer`. Não existe actualmente um script de testes automatizados no `package.json`.
 
-## 9. Qualidade e manutenção
+## 10. Qualidade e manutenção
 
 Antes de cada alteração:
 
@@ -242,10 +267,10 @@ Antes de cada alteração:
 3. manter validações e acessibilidade;
 4. testar desktop e mobile;
 5. executar `npm run build`;
-6. confirmar que exemplar, PDF e persistência continuam funcionais;
+6. confirmar que modelos prontos, preview, PDF, backup e persistência continuam funcionais;
 7. actualizar a documentação se o comportamento mudar.
 
-## 10. Evolução futura
+## 11. Evolução futura
 
 - exportação DOCX validada;
 - importação de texto/PDF com revisão manual;
@@ -254,4 +279,3 @@ Antes de cada alteração:
 - backend apenas quando houver sincronização, IA protegida, pagamentos ou colaboração;
 - testes automatizados de domínio e componentes;
 - métricas de qualidade sem recolher dados pessoais por defeito.
-

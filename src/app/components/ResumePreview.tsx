@@ -13,9 +13,9 @@ interface ResumePreviewProps {
 
 function ContactItem({ icon: Icon, children, color }: { icon: LucideIcon; children: React.ReactNode; color: string }) {
   return (
-    <div className="flex items-center gap-2">
-      <Icon className="h-4 w-4" style={{ color }} />
-      <span>{children}</span>
+    <div className="flex min-w-0 items-start gap-2">
+      <Icon className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} />
+      <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{children}</span>
     </div>
   );
 }
@@ -43,7 +43,7 @@ function SkillBadge({ label, color }: { label: string; color: string }) {
 
 function CompactSection({ title, color, children }: { title: string; color: string; children: React.ReactNode }) {
   const inverse = color.toLowerCase() === '#fff' || color.toLowerCase() === '#ffffff';
-  return <section className="mb-6"><h2 className="mb-3 border-b pb-1 text-lg font-semibold" style={{ color, borderColor: inverse ? 'rgba(255,255,255,0.45)' : `${color}66` }}>{title}</h2>{children}</section>;
+  return <section className="mb-6 min-w-0 [overflow-wrap:anywhere]"><h2 className="mb-3 border-b pb-1 text-lg font-semibold leading-snug" style={{ color, borderColor: inverse ? 'rgba(255,255,255,0.45)' : `${color}66` }}>{title}</h2>{children}</section>;
 }
 
 function ResumeDetails({ data, settings, color, sections }: { data: ResumeData; settings: ResumeSettings; color: string; sections: Array<'experience' | 'education' | 'skills' | 'languages' | 'certifications' | 'projects' | 'courses'> }) {
@@ -53,7 +53,7 @@ function ResumeDetails({ data, settings, color, sections }: { data: ResumeData; 
       if (!visible[section]) return null;
       if (section === 'experience' && data.experiences.length) return <CompactSection key={section} title="Experiência profissional" color={color}><div className="space-y-4">{data.experiences.map((item) => <div key={item.id} className="border-l-2 pl-4" style={{ borderColor: color }}><h3 className="font-semibold text-gray-900">{item.title}</h3><p className="font-medium text-gray-700">{item.company}</p><p className="mb-2 text-sm text-gray-500">{item.location} · {formatResumeDate(item.startDate)} - {item.current ? 'Presente' : formatResumeDate(item.endDate)}</p>{item.description && <p className="leading-relaxed text-gray-700">{item.description}</p>}</div>)}</div></CompactSection>;
       if (section === 'education' && data.education.length) return <CompactSection key={section} title="Formação" color={color}><div className="space-y-3">{data.education.map((item) => <div key={item.id}><h3 className="font-semibold text-gray-900">{item.degree}</h3><p className="text-gray-700">{item.institution}</p><p className="text-sm text-gray-500">{item.location} · {formatResumeDate(item.startDate)} - {item.current ? 'Presente' : formatResumeDate(item.endDate)}</p></div>)}</div></CompactSection>;
-      if (section === 'skills' && data.skills.length) return <CompactSection key={section} title={settings.template === 'functional' ? 'Competências principais' : 'Competências'} color={color}>{color.toLowerCase() === '#fff' || color.toLowerCase() === '#ffffff' ? <ul className="space-y-2 text-sm text-white">{data.skills.map((skill) => <li key={skill} className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white" />{skill}</li>)}</ul> : <div className="flex flex-wrap gap-2">{data.skills.map((skill) => <SkillBadge key={skill} label={skill} color={color} />)}</div>}</CompactSection>;
+      if (section === 'skills' && data.skills.length) return <CompactSection key={section} title={settings.template === 'functional' ? 'Competências principais' : 'Competências'} color={color}>{color.toLowerCase() === '#fff' || color.toLowerCase() === '#ffffff' ? <ul className="space-y-2 text-sm text-white">{data.skills.map((skill) => <li key={skill} className="flex min-w-0 items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white" /><span className="min-w-0 [overflow-wrap:anywhere]">{skill}</span></li>)}</ul> : <div className="flex flex-wrap gap-2">{data.skills.map((skill) => <SkillBadge key={skill} label={skill} color={color} />)}</div>}</CompactSection>;
       if (section === 'languages' && data.languages.length) return <CompactSection key={section} title="Idiomas" color={color}><ul className={`space-y-1 text-sm ${color.toLowerCase() === '#fff' || color.toLowerCase() === '#ffffff' ? 'text-white' : 'text-gray-700'}`}>{data.languages.map((item) => <li key={item.language}><strong>{item.language}</strong> · {item.level}</li>)}</ul></CompactSection>;
       const extraSections = { certifications: ['Certificações', data.certifications], projects: ['Projectos relevantes', data.projects], courses: ['Cursos e formação complementar', data.courses] } as const;
       if (section in extraSections) {
@@ -69,13 +69,13 @@ function PhotoSidebarLayout({ data, settings, color, creative = false }: { data:
   const { personalData } = data;
   const sidebarSections = creative ? ['skills', 'languages', 'certifications'] as const : ['skills', 'languages', 'certifications', 'courses'] as const;
   const mainSections = creative ? ['experience', 'education', 'projects'] as const : ['experience', 'education', 'projects'] as const;
-  return <div className="grid min-h-[29.7cm] grid-cols-[34%_66%] bg-white">
-    <aside className="p-7 text-white" style={{ backgroundColor: color }}>
+  return <div className="grid min-h-[29.7cm] grid-cols-[minmax(0,34fr)_minmax(0,66fr)] bg-white">
+    <aside className="min-w-0 p-7 text-white [overflow-wrap:anywhere]" style={{ backgroundColor: color }}>
       {!creative && (personalData.photo ? <img src={personalData.photo} alt="Fotografia de perfil" className="mx-auto mb-7 aspect-square w-36 rounded-full border-4 border-white/80 object-cover" /> : <div className="mx-auto mb-7 flex aspect-square w-36 items-center justify-center rounded-full border-2 border-dashed border-white/70 text-sm">Fotografia</div>)}
       <div className="mb-7"><h2 className="mb-3 border-b border-white/50 pb-1 text-lg font-semibold">Contactos</h2><div className="space-y-3 break-words text-sm">{personalData.email && <ContactItem icon={Mail} color="#fff">{personalData.email}</ContactItem>}{personalData.phone && <ContactItem icon={Phone} color="#fff">{personalData.phone}</ContactItem>}{personalData.address && <ContactItem icon={MapPin} color="#fff">{personalData.address}</ContactItem>}{personalData.linkedin && <ContactItem icon={Linkedin} color="#fff">{personalData.linkedin}</ContactItem>}{personalData.website && <ContactItem icon={Globe} color="#fff">{personalData.website}</ContactItem>}</div></div>
       <ResumeDetails data={data} settings={settings} color="#fff" sections={[...sidebarSections]} />
     </aside>
-    <main className="p-9">
+    <main className="min-w-0 p-9 [overflow-wrap:anywhere]">
       <header className="mb-8 border-b-2 pb-5" style={{ borderColor: color }}><h1 className="mb-2 text-3xl font-bold text-gray-900">{personalData.fullName || 'Seu Nome'}</h1><p className="text-lg font-medium" style={{ color }}>{personalData.profession || 'Sua profissão'}</p></header>
       {settings.showSections.summary && data.summary && <CompactSection title="Perfil profissional" color={color}><p className="leading-relaxed text-gray-700">{data.summary}</p></CompactSection>}
       <ResumeDetails data={data} settings={settings} color={color} sections={[...mainSections]} />

@@ -25,9 +25,9 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
       color: '#1f2937',
     },
     content: {     padding: isModern ? 28 : 0 },
-    columns: { flexDirection: 'row', alignItems: 'stretch' },
-    sidebar: { width: '34%', padding: 20, backgroundColor: color, color: '#ffffff' },
-    mainColumn: { width: '66%', padding: 24 },
+    columns: { width: '100%', flexDirection: 'row', alignItems: 'stretch' },
+    sidebar: { width: '34%', minWidth: 0, padding: 20, backgroundColor: color, color: '#ffffff' },
+    mainColumn: { width: '66%', minWidth: 0, padding: 24 },
     centeredHeader: { alignItems: 'center', textAlign: 'center', borderBottomWidth: 3, borderBottomColor: color, paddingBottom: 16, marginBottom: 16 },
     centeredColumns: { flexDirection: 'row', gap: 18 },
     centeredMain: { width: '62%' },
@@ -66,6 +66,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
     body: { fontSize: 9, color: '#374151', lineHeight: 1.3 },
     skills: { flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
     skill: {
+      maxWidth: '100%',
       fontSize: 8,
       color: isModern ? '#ffffff' : color,
       backgroundColor: isModern ? color : `${color}18`,
@@ -77,11 +78,14 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
     language: { fontSize: 9, color: '#374151' },
   });
 
-  const renderContactText = (light = false) => (
-    <Text style={[styles.contact, light ? { color: '#ffffff' } : {}]}>
-      {[personalData.email, personalData.phone, personalData.address, personalData.linkedin, personalData.website].filter(Boolean).join('  •  ')}
-    </Text>
-  );
+  const contactValues = [personalData.email, personalData.phone, personalData.address, personalData.linkedin, personalData.website].filter(Boolean);
+  const renderContactText = (light = false, stacked = false) => {
+    const contactStyle = [styles.contact, light ? { color: '#ffffff' } : {}];
+    if (stacked) {
+      return <View>{contactValues.map((value, index) => <Text key={`${index}-${value}`} style={[...contactStyle, { marginBottom: 4 }]}>{value}</Text>)}</View>;
+    }
+    return <Text style={contactStyle}>{contactValues.join('  •  ')}</Text>;
+  };
   const renderSummary = () => sectionIsVisible('summary') && summary ? <View style={styles.section}><Text style={styles.sectionTitle}>{hasSidebarLayout ? 'Perfil profissional' : 'Resumo Profissional'}</Text><Text style={styles.body}>{summary}</Text></View> : null;
   const renderExperience = () => sectionIsVisible('experience') && experiences.length > 0 ? <View style={styles.section}><Text style={styles.sectionTitle}>Experiência Profissional</Text>{experiences.map((item) => <View key={item.id} style={styles.item}><Text style={styles.itemTitle}>{item.title}</Text><Text style={styles.itemMeta}>{item.company}  •  {item.location}  •  {formatResumeDate(item.startDate)} - {item.current ? 'Presente' : formatResumeDate(item.endDate)}</Text>{item.description ? <Text style={styles.body}>{item.description}</Text> : null}</View>)}</View> : null;
   const renderEducation = () => sectionIsVisible('education') && education.length > 0 ? <View style={styles.section}><Text style={styles.sectionTitle}>Formação</Text>{education.map((item) => <View key={item.id} style={styles.item}><Text style={styles.itemTitle}>{item.degree}</Text><Text style={styles.itemMeta}>{item.institution}  •  {item.location}  •  {formatResumeDate(item.startDate)} - {item.current ? 'Presente' : formatResumeDate(item.endDate)}</Text>{item.description ? <Text style={styles.body}>{item.description}</Text> : null}</View>)}</View> : null;
@@ -101,7 +105,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
             <View style={styles.columns}>
               <View style={styles.sidebar}>
                 {personalData.photo ? <Image src={personalData.photo} style={styles.photoSidebar} /> : <Text style={[styles.contact, { color: '#ffffff', textAlign: 'center', marginBottom: 16 }]}>Fotografia</Text>}
-                <Text style={[styles.sectionTitle, { color: '#ffffff', borderBottomColor: '#ffffff80' }]}>Contactos</Text>{renderContactText(true)}
+                <Text style={[styles.sectionTitle, { color: '#ffffff', borderBottomColor: '#ffffff80' }]}>Contactos</Text>{renderContactText(true, true)}
                 {[renderSkills('Competências', true), renderLanguages(true), ...renderExtras(['certifications', 'courses'])]}
               </View>
               <View style={styles.mainColumn}>
@@ -112,7 +116,7 @@ export const ResumePdfDocument = ({ data, settings }: { data: ResumeData; settin
           ) : isCreative ? (
             <View style={styles.columns}>
               <View style={styles.sidebar}>
-                <Text style={[styles.sectionTitle, { color: '#ffffff', borderBottomColor: '#ffffff80' }]}>Contactos</Text>{renderContactText(true)}
+                <Text style={[styles.sectionTitle, { color: '#ffffff', borderBottomColor: '#ffffff80' }]}>Contactos</Text>{renderContactText(true, true)}
                 {[renderSkills('Competências', true), renderLanguages(true)]}
               </View>
               <View style={styles.mainColumn}>

@@ -9,12 +9,17 @@ os dados antes de exportar um CV para uso real.
 
 O projeto permite:
 - criar um CV em etapas guiadas
+- começar com um CV vazio, um exemplo demonstrativo ou um de seis modelos prontos
 - preencher dados pessoais, resumo, experiência, formação, competências, idiomas, certificações, projectos e cursos complementares
 - visualizar o currículo em tempo real
-- personalizar template e cores
-- activar um modo ATS simplificado e rever problemas de completude antes da exportação
+- personalizar o modelo, a cor principal e as secções visíveis
+- activar um modo ATS simplificado e rever alertas locais de completude antes da exportação
+- analisar lexicalmente uma descrição de vaga e guardar versões específicas para candidaturas
 - guardar automaticamente os dados no navegador e criar/importar backups JSON
 - exportar o resultado em PDF
+
+A análise e a revisão são auxiliares: não atribuem uma pontuação ATS nem garantem
+a aceitação do currículo por plataformas de recrutamento.
 
 ## Requisitos
 
@@ -80,7 +85,9 @@ src/
       LandingPage.tsx
       ResumeWizard.tsx
       ResumePreview.tsx
+      ResumeTemplateCardPreview.tsx
       forms/
+      ui/
     context/
       ResumeContext.tsx
     hooks/
@@ -88,6 +95,10 @@ src/
     types/
       resume.ts
     utils/
+      jobMatch.ts
+      resumeReview.ts
+      resumeStorage.ts
+      resumeVersions.ts
       resumePdf.tsx
 ```
 
@@ -96,16 +107,26 @@ src/
 1. Acesse a landing page.
 2. Escolha entre:
    - criar um CV em branco
-   - usar um exemplo pronto
+   - carregar um exemplo demonstrativo
+   - começar com um dos seis modelos prontos
 3. Preencha as etapas do wizard.
-4. Personalize o template e as cores.
+4. Personalize o modelo, a cor e as secções visíveis; reveja os alertas.
 5. Exporte em PDF.
+
+Na área de análise, importe um backup JSON ou use o CV completo guardado neste
+navegador. A comparação com uma vaga é lexical, corre localmente e não altera
+automaticamente o currículo.
 
 Em ecrãs pequenos, o preview é ocultado para dar prioridade ao formulário.
 Em laptops, o wizard mantém o preview ao lado das etapas.
 O PDF é gerado com texto real, permitindo pesquisa, seleção e extração por
 ferramentas de recrutamento. Isso não representa uma garantia de aceitação por
 qualquer ATS; a interpretação depende da plataforma e do anúncio.
+
+O currículo e as versões ficam guardados no `localStorage` do navegador. O
+projecto não implementa sincronização nem um backend para guardar os dados. Faça
+um backup JSON antes de limpar os dados do navegador; o ficheiro contém dados
+pessoais e não é protegido por palavra-passe.
 
 ## Investigação sobre currículos
 
@@ -116,10 +137,9 @@ o produto está em
 Também está disponível a análise comparativa individual das plataformas de criação de CV:
 [docs/analise-comparativa-plataformas-cv-2026-09.md](./docs/analise-comparativa-plataformas-cv-2026-09.md).
 
-A documentação completa do produto, manual de uso, casos de uso, arquitectura e
-informações técnicas está disponível em
-[docs/documentacao-projecto.md](./docs/documentacao-projecto.md) e em
-[PDF](./docs/documentacao-projecto.pdf).
+A documentação actualizada do produto, manual de uso, casos de uso, arquitectura
+e informações técnicas está disponível em
+[docs/documentacao-projecto.md](./docs/documentacao-projecto.md).
 
 ## Melhorias recentes
 
