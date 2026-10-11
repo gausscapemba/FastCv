@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ArrowRight,
+  Briefcase,
   FileText,
 } from '@phosphor-icons/react';
 import { Button } from '@/app/components/ui/button';
@@ -40,8 +41,9 @@ export function LandingPage({ onStart }: LandingPageProps) {
               <span className="text-lg font-extrabold tracking-[-0.06em] sm:text-xl">CV<span className="font-medium">Rápido</span></span>
             </button>
           </div>
-          <nav aria-label="Navegação principal" className="flex items-center gap-2 text-sm font-semibold text-[#35443B] sm:gap-7">
+          <nav aria-label="Navegação principal" className="flex items-center gap-1.5 text-xs font-semibold text-[#35443B] sm:gap-7 sm:text-sm">
             <a href="#how-it-works-heading" className="hidden transition-colors hover:text-[#174A3B] sm:inline">Como funciona</a>
+            <a href="#services" className="whitespace-nowrap transition-colors hover:text-[#174A3B]">Serviços</a>
             <a href="#ready-templates" className="transition-colors hover:text-[#174A3B]">Modelos</a>
             <button type="button" onClick={() => onStart('empty')} className="whitespace-nowrap rounded-full bg-[#174A3B] px-3 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#27634F] sm:px-5">Criar CV <ArrowRight className="ml-1 hidden sm:inline-block" size={16} weight="bold" /></button>
           </nav>
@@ -152,6 +154,35 @@ export function LandingPage({ onStart }: LandingPageProps) {
             ))}
           </div>
         </section>
+
+        <section id="services" className="scroll-mt-24 pt-16 sm:pt-20">
+          <div className="mb-7 max-w-xl border-b border-[#C9CDC4] pb-5">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#27634F]">Outras formas de apoio</p>
+            <h2 className="brand-display mt-2 text-3xl leading-tight text-[#17231E] sm:text-4xl">Continue a preparar o próximo passo.</h2>
+            <p className="mt-2 text-sm leading-6 text-[#626A64] sm:text-base">Além de criar um currículo, pode rever um CV que já tem e comparar a informação com uma vaga.</p>
+          </div>
+          <div className="divide-y divide-[#C9CDC4] border-y border-[#C9CDC4]">
+            <article className="grid gap-4 py-5 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-8 sm:py-6">
+              <div className="flex items-start gap-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#E5E9DD] text-[#174A3B]">
+                  <Briefcase aria-hidden="true" size={21} weight="duotone" />
+                </span>
+                <div>
+                  <h3 className="font-bold text-[#17231E]">Rever um currículo pronto</h3>
+                  <p className="mt-1 max-w-xl text-sm leading-6 text-[#626A64]">Verifique a consistência do CV e compare-o com uma vaga. A análise é local e não prevê decisões de contratação.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => onStart('analysis')}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#C9CDC4] bg-white px-5 text-sm font-bold text-[#174A3B] transition-colors hover:border-[#174A3B] hover:bg-[#E5E9DD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#27634F] focus-visible:ring-offset-2 sm:ml-14"
+              >
+                Rever um CV <ArrowRight aria-hidden="true" size={17} weight="bold" />
+              </button>
+            </article>
+          </div>
+        </section>
+
 
       </main>
     </div>

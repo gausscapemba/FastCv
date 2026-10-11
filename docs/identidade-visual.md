@@ -180,6 +180,23 @@ blocos nem listar todas as funcionalidades de uma vez. Serviços secundários
 devem surgir quando forem relevantes para a tarefa, não como uma chamada
 adicional no fim da página inicial.
 
+O acesso a **Serviços** fica disponível na navegação e abre uma página própria,
+e leva à secção de serviços na própria página inicial, abaixo dos modelos. A
+secção deve manter a criação de CV como caminho principal e descrever apenas
+funcionalidades já disponíveis. Actualmente inclui a revisão de um CV existente,
+com verificações locais e comparação lexical com uma vaga; não deve apresentar
+ideias futuras como serviços activos.
+
+No editor, deixar o documento da página controlar a rolagem vertical, sem
+prender o formulário numa área com scroll próprio. Em ecrãs largos, aproveitar
+a largura disponível para o formulário e manter a pré-visualização numa coluna
+ao lado. Na etapa de personalização, a pré-visualização também deve estar
+disponível em mobile antes da exportação, ajustada à largura do ecrã e com uma
+opção para ampliar os detalhes.
+O botão final deve dizer claramente que conclui a edição e regressa ao início;
+a exportação do PDF continua a ser uma acção explícita e separada. O CV fica
+guardado no dispositivo.
+
 ## Responsividade e acessibilidade
 
 - Breakpoints Tailwind usados pela aplicação: `sm` 640 px, `md` 768 px,

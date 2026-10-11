@@ -1,5 +1,5 @@
 // ResumeWizard.tsx
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useResume } from '@/app/context/ResumeContext';
 import { generatePdfBlob } from '@/app/utils/resumePdf';
 
@@ -17,7 +17,6 @@ import { AdditionalSectionsForm } from '@/app/components/forms/AdditionalSection
 import { CustomizationForm } from '@/app/components/forms/CustomizationForm';
 
 import { Button } from '@/app/components/ui/button';
-import { ScrollArea } from '@/app/components/ui/scroll-area';
 
 import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
 import type { ReadyTemplateId, ResumeStartMode } from '@/app/types/resume';
@@ -40,6 +39,7 @@ interface ResumeWizardProps {
 export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [showCustomization, setShowCustomization] = useState(false);
+  const [mobilePreviewExpanded, setMobilePreviewExpanded] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const { resumeData, settings, loadDemoData, loadReadyTemplate, resetResumeData } = useResume();
   React.useEffect(() => {
@@ -66,6 +66,12 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
 
   /** ---------------- NAVEGAÇÃO ---------------- */
   const handleNext = async () => {
+    if (showCustomization) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      onBack();
+      return;
+    }
+
     if (!validateCurrentStep()) return;
     setValidationErrors([]);
 
@@ -121,7 +127,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
     <div className="brand-body min-h-screen bg-[#F7F5EF] text-[#17231E]">
       {/* HEADER */}
       <header className="sticky top-0 z-10 border-b border-[#DDDCD3] bg-[#F7F5EF]/95 backdrop-blur-sm">
-        <div className="mx-auto max-w-[1240px] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-3">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center gap-3">
           <button
             type="button"
             aria-label="Ir para o início"
@@ -137,7 +143,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
       </header>
 
       {/* CONTEÚDO */}
-      <div className="mx-auto max-w-[1240px] px-4 sm:px-6 py-6 sm:py-8">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-6 sm:py-8">
         {!showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
         {(initialMode === 'demo' || initialMode.startsWith('template-')) && currentStep === 0 && !showCustomization && (
           <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
@@ -153,18 +159,39 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
           </div>
         )}
 
-        {showCustomization && (
-          <div className="mb-4 flex justify-end gap-2 xl:hidden">
-            <Button variant="outline" size="sm" onClick={() => resetResumeData()}>Limpar</Button>
-            <Button size="sm" onClick={handleExportPDF} className="bg-[#174A3B] hover:bg-[#27634F]">
-              <Download className="mr-2 h-4 w-4" /> Exportar PDF
-            </Button>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] gap-5 xl:gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 xl:gap-6">
           <div className="min-w-0">
-            <ScrollArea className="h-auto max-h-none xl:h-[calc(100vh-250px)] pr-0 xl:pr-3">{renderForm()}</ScrollArea>
+            <div className="pr-0 xl:pr-3">{renderForm()}</div>
+            {showCustomization && (
+              <section className="my-6 rounded-lg border border-[#DDDCD3] bg-white p-3 sm:p-4 xl:hidden">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <h4 className="font-semibold text-[#17231E]">Pré-visualização do CV</h4>
+                    <p className="text-xs text-[#626A64]">Confira o documento antes de exportar.</p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setMobilePreviewExpanded((expanded) => !expanded)}
+                    aria-expanded={mobilePreviewExpanded}
+                  >
+                    {mobilePreviewExpanded ? 'Ajustar à largura' : 'Ampliar detalhes'}
+                  </Button>
+                </div>
+                <MobileResumePreview
+                  data={resumeData}
+                  settings={settings}
+                  expanded={mobilePreviewExpanded}
+                />
+                <div className="mt-4 flex flex-wrap justify-end gap-2 border-t border-[#DDDCD3] pt-4">
+                  <Button type="button" variant="outline" size="sm" onClick={() => resetResumeData()}>Limpar</Button>
+                  <Button type="button" size="sm" onClick={handleExportPDF} className="bg-[#174A3B] hover:bg-[#27634F]">
+                    <Download className="mr-2 h-4 w-4" /> Exportar PDF
+                  </Button>
+                </div>
+              </section>
+            )}
             <div className="flex gap-2 pt-4 border-t sm:justify-end">
               <Button
                 variant="outline"
@@ -180,7 +207,7 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
                 className="flex-1 min-h-8 rounded-md bg-[#174A3B] hover:bg-[#27634F] shadow-sm px-3 py-1.5 sm:flex-none sm:min-h-9"
               >
                 <span className="text-[11px] sm:text-xs">
-                  {showCustomization ? 'Concluído' : currentStep === steps.length - 1 ? 'Personalizar' : 'Próximo'}
+                  {showCustomization ? 'Concluir e voltar ao início' : currentStep === steps.length - 1 ? 'Personalizar' : 'Próximo'}
                 </span>
                 {!showCustomization && <ArrowRight className="h-3.5 w-3.5 sm:ml-1" />}
               </Button>
@@ -233,6 +260,59 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
         }}
       >
         <ResumePreview data={resumeData} settings={settings} />
+      </div>
+    </div>
+  );
+}
+
+function MobileResumePreview({
+  data,
+  settings,
+  expanded,
+}: {
+  data: ReturnType<typeof useResume>['resumeData'];
+  settings: ReturnType<typeof useResume>['settings'];
+  expanded: boolean;
+}) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const documentRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ scale: 0.4, height: 1122 });
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    const document = documentRef.current;
+    if (!frame || !document) return;
+
+    const updateSize = () => {
+      const scale = Math.min(1, Math.max(0.1, (frame.clientWidth - 8) / 800));
+      setDimensions({
+        scale,
+        height: Math.max(document.offsetHeight, 1122),
+      });
+    };
+
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(frame);
+    observer.observe(document);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={frameRef}
+      className={`${expanded ? 'max-h-[70vh] overflow-auto' : 'overflow-hidden'} rounded-sm border border-[#DDDCD3] bg-[#EAE9E2] p-1`}
+      style={!expanded ? { height: dimensions.height * dimensions.scale + 8 } : undefined}
+    >
+      <div
+        ref={documentRef}
+        className="w-[800px]"
+        style={{
+          transform: `scale(${expanded ? 1 : dimensions.scale})`,
+          transformOrigin: 'top left',
+        }}
+      >
+        <ResumePreview data={data} settings={settings} />
       </div>
     </div>
   );
