@@ -4,6 +4,7 @@ export type JobMatchResult = {
   keywords: string[];
   matched: string[];
   missing: string[];
+  experienceRequirement: { requiredYears: number; statedYears: number | null } | null;
 };
 
 const STOP_WORDS = new Set(
@@ -15,11 +16,7 @@ function normalize(value: string) {
 }
 
 export function analyzeJobMatch(data: ResumeData, description: string): JobMatchResult {
-  const source = normalize(description);
-  const keywords = Array.from(new Set(
-    source.match(/[a-z][a-z0-9+#.-]{2,}/g)?.filter((word) => !STOP_WORDS.has(word)) || [],
-  )).slice(0, 30);
-  const resumeText = normalize([
+  const resumeText = [
     data.personalData.profession,
     data.summary,
     ...data.skills,
@@ -27,7 +24,33 @@ export function analyzeJobMatch(data: ResumeData, description: string): JobMatch
     ...data.projects,
     ...data.certifications,
     ...data.courses,
-  ].join(' '));
-  const matched = keywords.filter((keyword) => resumeText.includes(keyword));
-  return { keywords, matched, missing: keywords.filter((keyword) => !matched.includes(keyword)) };
+  ].join(' ');
+  return analyzeJobMatchText(resumeText, description);
+}
+
+export function analyzeJobMatchText(resumeText: string, description: string): JobMatchResult {
+  const source = normalize(description);
+  const experienceRequirement = findExperienceYears(description);
+  const statedYears = findExperienceYears(resumeText);
+  const keywords = Array.from(new Set(
+    source.match(/[a-z][a-z0-9+#.-]{2,}/g)?.filter((word) => !STOP_WORDS.has(word) && !['anos', 'ano', 'years', 'year', 'experiencia', 'experience'].includes(word)) || [],
+  )).slice(0, 30);
+  const normalizedResume = normalize(resumeText);
+  const matched = keywords.filter((keyword) => normalizedResume.includes(keyword));
+  return {
+    keywords,
+    matched,
+    missing: keywords.filter((keyword) => !matched.includes(keyword)),
+    experienceRequirement: experienceRequirement === null
+      ? null
+      : { requiredYears: experienceRequirement, statedYears },
+  };
+}
+
+function findExperienceYears(text: string) {
+  const matches = Array.from(
+    text.matchAll(/(\d+(?:[.,]\d+)?)\s*\+?\s*(?:anos?|years?)(?:\s+(?:de|of))?\s+(?:de\s+)?(?:experi[eê]ncia|experience)/gi),
+    (match) => Number(match[1].replace(',', '.')),
+  ).filter(Number.isFinite);
+  return matches.length ? Math.max(...matches) : null;
 }

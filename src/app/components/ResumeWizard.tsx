@@ -144,23 +144,26 @@ export function ResumeWizard({ onBack, initialMode = 'empty' }: ResumeWizardProp
 
       {/* CONTEÚDO */}
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 py-6 sm:py-8">
-        {!showCustomization && <Stepper steps={steps} currentStep={currentStep} />}
-        {(initialMode === 'demo' || initialMode.startsWith('template-')) && currentStep === 0 && !showCustomization && (
-          <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            <strong>Este exemplo tem dados fictícios.</strong> Use-o para perceber
-            como o currículo pode ficar; pode substituir tudo pelos seus dados.
-          </div>
-        )}
-        {validationErrors.length > 0 && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <ul className="list-disc list-inside text-sm text-red-700">
-              {validationErrors.map((err, i) => (<li key={i}>{err}</li>))}
-            </ul>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 xl:gap-6">
-          <div className="min-w-0">
+        <div className={`grid grid-cols-1 gap-5 xl:gap-6 ${showCustomization ? 'xl:grid-cols-[minmax(0,1fr)_360px]' : 'xl:grid-cols-[190px_minmax(0,1fr)_360px]'}`}>
+          {!showCustomization && (
+            <aside className="w-full xl:sticky xl:top-24 xl:self-start">
+              <Stepper steps={steps} currentStep={currentStep} />
+            </aside>
+          )}
+          <div className={`mx-auto w-full max-w-[900px] min-w-0 ${showCustomization ? '' : 'xl:col-start-2'}`}>
+            {(initialMode === 'demo' || initialMode.startsWith('template-')) && currentStep === 0 && !showCustomization && (
+              <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                <strong>Este exemplo tem dados fictícios.</strong> Use-o para perceber
+                como o currículo pode ficar; pode substituir tudo pelos seus dados.
+              </div>
+            )}
+            {validationErrors.length > 0 && (
+              <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
+                <ul className="list-inside list-disc text-sm text-red-700">
+                  {validationErrors.map((err, i) => (<li key={i}>{err}</li>))}
+                </ul>
+              </div>
+            )}
             <div className="pr-0 xl:pr-3">{renderForm()}</div>
             {showCustomization && (
               <section className="my-6 rounded-lg border border-[#DDDCD3] bg-white p-3 sm:p-4 xl:hidden">

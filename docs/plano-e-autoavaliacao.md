@@ -21,7 +21,7 @@
 - [x] Guardar, restaurar e remover versões nomeadas do CV.
 - [x] Analisar termos de uma descrição de vaga localmente.
 - [x] Guardar uma cópia para uma candidatura específica.
-- [ ] Importação de texto/PDF com revisão manual.
+- [x] Importação de PDF, DOCX e imagens com extracção/OCR local e revisão manual do texto.
 - [ ] Exportação DOCX, se a qualidade do resultado puder ser validada.
 
 ## Autoavaliação

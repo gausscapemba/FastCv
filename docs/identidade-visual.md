@@ -190,7 +190,9 @@ ideias futuras como serviços activos.
 No editor, deixar o documento da página controlar a rolagem vertical, sem
 prender o formulário numa área com scroll próprio. Em ecrãs largos, aproveitar
 a largura disponível para o formulário e manter a pré-visualização numa coluna
-ao lado. Na etapa de personalização, a pré-visualização também deve estar
+ao lado. Mostrar as etapas sequenciais em coluna vertical e centrar o formulário
+na área principal, sem retirar destaque à etapa actual. Na etapa de
+personalização, a pré-visualização também deve estar
 disponível em mobile antes da exportação, ajustada à largura do ecrã e com uma
 opção para ampliar os detalhes.
 O botão final deve dizer claramente que conclui a edição e regressa ao início;

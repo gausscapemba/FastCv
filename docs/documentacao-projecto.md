@@ -22,6 +22,7 @@ O produto não promete aprovação automática por ATS. O modo ATS e a revisão 
 - PDF A4 pesquisável e seleccionável;
 - modo ATS simplificado;
 - revisão local de email, links, datas, resumo, competências e descrições;
+- importação de CV em PDF, DOCX e imagem, com extracção de texto e OCR local;
 - gravação automática no navegador;
 - exportação/importação de backup JSON;
 - versões nomeadas guardadas localmente;
@@ -59,7 +60,7 @@ do modo ATS, de importar/exportar um backup JSON ou de guardar versões do CV.
 
 ### 3.4 Rever o CV
 
-A revisão é local e apresenta alertas accionáveis. Verifica campos essenciais, formato do email, ligações, datas, quantidade de competências, resumo e descrições. Não atribui uma pontuação universal de ATS.
+A revisão aceita PDF, DOCX, imagens e backup JSON do FastCV. PDFs com texto são lidos directamente; páginas digitalizadas e imagens passam por OCR em português e inglês. O texto extraído é mostrado para revisão manual antes de comparar com uma vaga. Em backups FastCV, também são apresentados alertas accionáveis para campos essenciais, formato do email, ligações, datas, quantidade de competências, resumo e descrições. Não atribui uma pontuação universal de ATS.
 
 ### 3.5 Guardar versões
 
@@ -93,6 +94,7 @@ Seleccione **Exportar PDF**. O resultado é um PDF A4 com texto real. Em telemó
 - exportação PDF pesquisável;
 - adaptação visual por modelo;
 - dados não enviados para um backend pelo fluxo actual;
+- documentos seleccionados para análise processados no navegador, sem envio do currículo para um serviço de análise;
 - funcionamento em desktop e mobile.
 
 ### O utilizador não deve esperar
@@ -107,7 +109,7 @@ Seleccione **Exportar PDF**. O resultado é um PDF A4 com texto real. Em telemó
 
 ## 5. Dados e privacidade
 
-O CV é mantido no estado da aplicação e guardado automaticamente no `localStorage` do navegador. As versões do currículo também são guardadas localmente. O projecto não implementa uma API/backend para receber ou sincronizar o conteúdo do CV.
+O CV é mantido no estado da aplicação e guardado automaticamente no `localStorage` do navegador. As versões do currículo também são guardadas localmente. A leitura de documentos e o OCR ocorrem no navegador; os ficheiros não são enviados para um backend. O motor de OCR e os dados de idioma podem ser descarregados do CDN quando necessários, mas o conteúdo do CV permanece no dispositivo. O projecto não implementa uma API/backend para receber ou sincronizar o conteúdo do CV.
 
 Limpar os dados do navegador pode apagar o CV e as versões guardadas. Para transportar ou preservar uma cópia, exporte o backup JSON e guarde-o num local seguro: contém dados pessoais e não é protegido por palavra-passe.
 
